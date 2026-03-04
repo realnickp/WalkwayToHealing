@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 33% 97%;
+    --foreground: 20 14% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 10%;
+    --primary: 164 60% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 25% 93%;
+    --secondary-foreground: 20 14% 10%;
+    --muted: 36 20% 92%;
+    --muted-foreground: 25 10% 47%;
+    --accent: 22 57% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 15% 86%;
+    --input: 30 15% 86%;
+    --ring: 164 60% 26%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-stone-900 font-sans antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary rounded-sm;
+  }
+
+  /* Smooth tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Gradient overlays */
+  .gradient-primary {
+    background: linear-gradient(135deg, #134E42 0%, #1B6B5A 50%, #2A9178 100%);
+  }
+
+  .gradient-warm {
+    background: linear-gradient(135deg, #F8F5F0 0%, #EFE9E0 100%);
+  }
+
+  /* Glass card effect */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile touch targets */
+@media (max-width: 768px) {
+  button, [role="button"], a, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* Custom scrollbar for desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F8F5F0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D6D3D1;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A8A29E;
+  }
+}
