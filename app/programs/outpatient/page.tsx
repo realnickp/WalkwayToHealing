@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CheckCircle, Clock } from 'lucide-react'
+import { CheckCircle, Clock, ArrowRight } from 'lucide-react'
 import { breadcrumbSchema, serviceSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
-import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/shared/AnimatedSection'
+import { AnimatedSection } from '@/components/shared/AnimatedSection'
 
 
 export const metadata: Metadata = {
