@@ -310,7 +310,7 @@ export async function resetStaffPassword(staffId: string, newPassword: string) {
 }
 
 export async function inviteStaffMember(email: string, name: string, role: 'admin' | 'staff', password: string) {
-  const admin = await requireAdmin()
+  await requireAdmin()
   const supabase = await createServiceClient()
 
   if (password.length < 8) {

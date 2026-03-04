@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CheckCircle, Phone, Clock, AlertTriangle, ArrowRight } from 'lucide-react'
+import { CheckCircle, Clock, AlertTriangle, ArrowRight } from 'lucide-react'
 import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {

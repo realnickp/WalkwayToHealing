@@ -183,7 +183,7 @@ export function InviteStaffDialog() {
                 </button>
               </div>
               <p className="text-[11px] text-stone-400 mt-1">
-                You'll share this with the staff member so they can log in.
+                You&apos;ll share this with the staff member so they can log in.
               </p>
             </div>
 

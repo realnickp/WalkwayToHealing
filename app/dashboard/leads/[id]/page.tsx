@@ -10,8 +10,8 @@ import { ActivityFeed } from '@/components/dashboard/ActivityFeed'
 import { ExportButton } from '@/components/dashboard/ExportButton'
 import { format } from 'date-fns'
 import {
-  ArrowLeft, Phone, Mail, Calendar, MapPin, Pill,
-  Heart, Home, Stethoscope, AlertTriangle, Gavel, Shield
+  ArrowLeft, Phone, Mail, Calendar, Pill,
+  Home, Stethoscope, Gavel, Shield
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -92,7 +92,7 @@ export default async function LeadDetailPage({
               {lead.full_name}
             </h1>
             {lead.preferred_name && (
-              <p className="text-stone-500 text-sm mt-0.5">Goes by "{lead.preferred_name}"</p>
+              <p className="text-stone-500 text-sm mt-0.5">Goes by &ldquo;{lead.preferred_name}&rdquo;</p>
             )}
             <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-stone-500">
               {lead.phone && (

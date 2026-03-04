@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { LayoutDashboard, Users, Settings, LogOut, Search, UserCog } from 'lucide-react'
+import { LayoutDashboard, Users, Settings, LogOut, UserCog } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { createBrowserClient } from '@supabase/ssr'
 

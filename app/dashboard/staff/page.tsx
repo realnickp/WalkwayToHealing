@@ -45,7 +45,7 @@ export default async function StaffPage() {
       <div className="mt-6 bg-primary-50 rounded-xl p-4 border border-primary-100">
         <h3 className="font-semibold text-primary text-sm mb-1">How to add a new staff member</h3>
         <ol className="text-xs text-primary-700 space-y-1 list-decimal list-inside leading-relaxed">
-          <li>Click <strong>"Add Staff"</strong> and enter their name, email, password, and role.</li>
+          <li>Click <strong>&ldquo;Add Staff&rdquo;</strong> and enter their name, email, password, and role.</li>
           <li>Copy the login credentials and share them with the staff member.</li>
           <li>They can log in immediately — no setup needed on their end.</li>
           <li>To remove access, click the <strong>Disable</strong> button next to their name.</li>

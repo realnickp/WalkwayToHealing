@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { formatDistanceToNow } from 'date-fns'
-import { Phone, User, Calendar } from 'lucide-react'
+import { User, Calendar } from 'lucide-react'
 import type { LeadStatus } from '@/lib/supabase/types'
 
 export interface LeadCardData {

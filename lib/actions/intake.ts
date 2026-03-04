@@ -217,7 +217,7 @@ export async function submitPrescreen(
 
     // 3. Store full form JSON in intake_forms
     if (lead) {
-      const { consentGiven, signatureName, ...formAnswers } = data
+      const { consentGiven: _consent, signatureName: _sig, ...formAnswers } = data
       await supabase.from('intake_forms').insert({
         lead_id: lead.id,
         prescreen_json: formAnswers as never,

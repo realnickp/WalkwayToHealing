@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CheckCircle, Clock, Users, ArrowRight } from 'lucide-react'
+import { CheckCircle, Clock } from 'lucide-react'
 import { breadcrumbSchema, serviceSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/shared/AnimatedSection'
-import { FAQSection } from '@/components/home/FAQSection'
+
 
 export const metadata: Metadata = {
   title: 'Level 1 Outpatient Program (OP) | Walkway to Healing Maryland',
