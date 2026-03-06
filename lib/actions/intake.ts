@@ -21,80 +21,52 @@ async function checkRateLimit(ip: string): Promise<boolean> {
 }
 
 async function sendStaffNotification(leadId: string) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://walkwaytohealing.com'
-  const dashboardLink = `${siteUrl}/dashboard/leads/${leadId}`
-
-  // Try Resend first
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: process.env.FROM_EMAIL || 'notifications@walkwaytohealing.com',
-          to: [process.env.NOTIFICATION_EMAIL || 'Admin@WalkWaytoHealing.com'],
-          subject: 'New intake submitted',
-          html: `
-<div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
-  <h2 style="color: #1B6B5A;">New Intake Submitted</h2>
-  <p>A new intake was submitted. Log in to view.</p>
-  <p style="background: #F0F9F6; border-left: 4px solid #1B6B5A; padding: 12px 16px; border-radius: 4px;">
-    To protect privacy, no personal information is included in this email.
-  </p>
-  <p>
-    <a href="${dashboardLink}" style="display: inline-block; background: #1B6B5A; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
-      View in Dashboard
-    </a>
-  </p>
-  <p style="color: #78716C; font-size: 14px;">
-    This link requires staff login. Do not forward this email.
-  </p>
-</div>`,
-        }),
-      })
-      if (res.ok) return
-      console.error('Resend error:', await res.text())
-    } catch (err) {
-      console.error('Resend failed:', err)
-    }
+  if (!process.env.SENDGRID_API_KEY) {
+    console.warn('SENDGRID_API_KEY not set — skipping email notification')
+    return
   }
 
-  // Fall back to SMTP
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) return
+  const sgMail = (await import('@sendgrid/mail')).default
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-  try {
-    const nodemailer = await import('nodemailer')
-    const transporter = nodemailer.default.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587', 10),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://walkwaytohealing.com'
+  const dashboardLink = `${siteUrl}/dashboard/leads/${leadId}`
+  const from = process.env.NOTIFICATION_FROM || 'info@legacylinqdigital.com'
+  const toList = (process.env.NOTIFICATION_TO || '').split(',').map(e => e.trim()).filter(Boolean)
 
-    await transporter.sendMail({
-      from: process.env.FROM_EMAIL || process.env.SMTP_USER,
-      to: process.env.NOTIFICATION_EMAIL,
-      subject: 'New intake submitted',
-      text: `A new intake was submitted. Log in to view: ${dashboardLink}`,
-      html: `
-<div style="font-family: sans-serif; max-width: 500px; margin: 0 auto;">
-  <h2 style="color: #1B6B5A;">New Intake Submitted</h2>
-  <p>A new intake was submitted. Log in to view.</p>
-  <p>
-    <a href="${dashboardLink}" style="display: inline-block; background: #1B6B5A; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
-      View in Dashboard
+  if (toList.length === 0) {
+    console.warn('NOTIFICATION_TO not set — skipping email notification')
+    return
+  }
+
+  const html = `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #1B6B5A; margin-bottom: 16px;">New Intake Submitted</h2>
+  <p style="color: #44403C; line-height: 1.6;">A new intake has been submitted and is ready for review.</p>
+  <p style="background: #F0F9F6; border-left: 4px solid #1B6B5A; padding: 12px 16px; border-radius: 4px; color: #44403C; font-size: 14px;">
+    To protect patient privacy, no personal information is included in this email.
+  </p>
+  <p style="margin: 24px 0;">
+    <a href="${dashboardLink}" style="display: inline-block; background: #1B6B5A; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px;">
+      View Lead in Dashboard
     </a>
   </p>
-</div>`,
+  <p style="color: #A8A29E; font-size: 13px; line-height: 1.5;">
+    This link requires staff login. Do not forward this email.<br/>
+    Walkway to Healing &mdash; Confidential
+  </p>
+</div>`
+
+  try {
+    await sgMail.send({
+      to: toList,
+      from,
+      subject: 'New Intake Submitted — Walkway to Healing',
+      text: `A new intake has been submitted. Log in to review: ${dashboardLink}`,
+      html,
     })
   } catch (err) {
-    console.error('SMTP notification failed:', err)
+    console.error('SendGrid notification failed:', err)
   }
 }
 

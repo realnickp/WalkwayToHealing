@@ -48,7 +48,7 @@ export default async function SettingsPage() {
           </div>
           <div>
             <p className="font-semibold text-stone-500">Email Notifications</p>
-            <p className="text-xs text-stone-400">Configure via .env.local (SMTP or Resend)</p>
+            <p className="text-xs text-stone-400">Configured via SendGrid</p>
           </div>
         </div>
 
