@@ -43,3 +43,6 @@ next-env.d.ts
 
 # Windows reserved names
 nul
+
+# Source files (not for deployment)
+staff pic and new pics/
