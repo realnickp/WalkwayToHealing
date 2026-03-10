@@ -6,7 +6,7 @@ export const siteConfig = {
   tagline: 'Outpatient Substance Use Treatment',
   description:
     'Compassionate, evidence-based outpatient substance use treatment serving communities across Maryland. Accepting Maryland Medicaid. Real people, real recovery.',
-  url: 'https://walkwaytohealing.com',
+  url: 'https://www.walkwaytohealing.com',
 
   contact: {
     phone: '4109347976',

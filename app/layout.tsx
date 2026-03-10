@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: '/og-image.png',
+        url: `${siteConfig.url}/og-image.png`,
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} — Outpatient Substance Use Treatment in Maryland`,
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteConfig.name} | Outpatient Substance Use Treatment in Maryland`,
     description: siteConfig.description,
-    images: ['/og-image.png'],
+    images: [`${siteConfig.url}/og-image.png`],
   },
   robots: {
     index: true,
