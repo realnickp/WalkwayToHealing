@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getLeadCounts, getRecentLeads } from '@/lib/actions/dashboard'
 import { StatusCard, StatusBadge } from '@/components/dashboard/StatusCard'
+import { AddLeadDialog } from '@/components/dashboard/AddLeadDialog'
 import { formatDistanceToNow } from 'date-fns'
 import { ArrowRight, Users } from 'lucide-react'
 import type { LeadStatus } from '@/lib/supabase/types'
@@ -27,13 +28,16 @@ export default async function DashboardHomePage() {
             {totalActive} active lead{totalActive !== 1 ? 's' : ''} across your pipeline
           </p>
         </div>
-        <Link
-          href="/dashboard/leads"
-          className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary-dark transition-colors"
-        >
-          <Users className="h-4 w-4" aria-hidden="true" />
-          View All Leads
-        </Link>
+        <div className="flex items-center gap-3">
+          <AddLeadDialog />
+          <Link
+            href="/dashboard/leads"
+            className="flex items-center gap-2 bg-stone-100 text-stone-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-stone-200 transition-colors"
+          >
+            <Users className="h-4 w-4" aria-hidden="true" />
+            View All
+          </Link>
+        </div>
       </div>
 
       {/* Status cards */}

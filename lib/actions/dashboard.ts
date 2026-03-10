@@ -350,6 +350,72 @@ export async function inviteStaffMember(email: string, name: string, role: 'admi
   return { success: true, userId: authData.user.id }
 }
 
+// ── Manual Lead Creation ──
+
+export async function createLeadManual(data: {
+  full_name: string
+  phone?: string
+  email?: string
+  dob?: string
+  county?: string
+  gender_identity?: string
+  primary_drug?: string
+  insurance_type?: string
+  referral_source?: string
+  notes?: string
+}) {
+  const staff = await getStaffUser()
+  const supabase = await createServiceClient()
+
+  const { data: lead, error } = await supabase
+    .from('leads')
+    .insert({
+      full_name: data.full_name,
+      phone: data.phone || null,
+      email: data.email || null,
+      dob: data.dob || null,
+      county: data.county || null,
+      gender_identity: data.gender_identity || null,
+      primary_drug: data.primary_drug || null,
+      insurance_type: data.insurance_type || null,
+      referral_source: data.referral_source || null,
+      source: 'manual',
+      status: 'new',
+      assigned_staff_id: staff.id,
+      needs_detox_referral: false,
+      needs_housing_referral: false,
+      needs_medical_eval: false,
+      history_seizures: false,
+      mobility_issues: false,
+      has_open_wounds: false,
+      sex_offender: false,
+      court_appt_next_30: false,
+    } as never)
+    .select('id')
+    .single()
+
+  if (error) throw new Error('Failed to create lead')
+
+  await supabase.from('lead_activity_log').insert({
+    lead_id: (lead as { id: string }).id,
+    staff_id: staff.id,
+    action: 'created_manually',
+    details: { created_by: staff.name },
+  } as never)
+
+  if (data.notes?.trim()) {
+    await supabase.from('lead_notes').insert({
+      lead_id: (lead as { id: string }).id,
+      staff_id: staff.id,
+      note: data.notes.trim(),
+    } as never)
+  }
+
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+  return { success: true, leadId: (lead as { id: string }).id }
+}
+
 export async function deleteLeadAdmin(leadId: string) {
   await requireAdmin()
   const supabase = await createServiceClient()

@@ -3,6 +3,7 @@ import { getLeads, getLeadCounts, getAllStaff } from '@/lib/actions/dashboard'
 import { LeadCard } from '@/components/dashboard/LeadCard'
 import { LeadFilters } from '@/components/dashboard/LeadFilters'
 import { StatusBadge } from '@/components/dashboard/StatusCard'
+import { AddLeadDialog } from '@/components/dashboard/AddLeadDialog'
 import type { LeadStatus } from '@/lib/supabase/types'
 
 const COLUMNS: { status: LeadStatus; label: string }[] = [
@@ -56,9 +57,12 @@ export default async function LeadsPage({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-bold text-stone-900 mb-4">
-          Leads
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="font-display text-2xl font-bold text-stone-900">
+            Leads
+          </h1>
+          <AddLeadDialog />
+        </div>
         <Suspense fallback={null}>
           <LeadFilters staffList={staffList} />
         </Suspense>

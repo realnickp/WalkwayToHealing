@@ -42,6 +42,8 @@ const team: TeamMember[] = [
     name: 'Marva Williams',
     title: 'Director of Admissions',
     image: '/images/team/marva-williams.png',
+    bio: 'Marva knows the road to recovery because she\u2019s walked it herself. Having personally experienced homelessness and addiction, she dedicated her life to supporting others on a similar path. With over 20 years working with the homeless population and deep roots in addiction treatment, she brings genuine empathy and active listening to every interaction \u2014 replacing judgment with compassion.',
+    quote: 'You are not alone. I am proud of you, and I am here to support you.',
   },
   {
     name: 'Frederick Kingery',
@@ -68,12 +70,14 @@ const team: TeamMember[] = [
     name: 'Rachel Cornelio',
     title: 'Counselor',
     image: '/images/team/rachel-cornelio.png',
+    bio: 'Rachel came to addiction recovery work through a master\u2019s in psychology and a determination to put it to real use. She started as a chart auditor and group facilitator at an inpatient treatment facility, fell in love with the work, and earned her counseling certification. With family members who\u2019ve struggled with addiction and mental health, she\u2019s seen firsthand that recovery is possible with empathy, structure, and support.',
+    quote: 'Take things one minute at a time.',
   },
   {
-    name: 'Ellie Evans',
+    name: 'Elli Evans',
     title: 'Director of Business & Marketing',
     image: '/images/team/ellie-evans.png',
-    bio: 'Ellie understands what it means to be at the end of the line. For years she struggled with addiction herself, and those experiences fuel her belief that compassion, patience, and understanding are the foundations of recovery.',
+    bio: 'Elli understands what it means to be at the end of the line. For years she struggled with addiction herself, and those experiences fuel her belief that compassion, patience, and understanding are the foundations of recovery.',
     quote: 'Sometimes things have to fall apart so better things can come together.',
   },
   {
