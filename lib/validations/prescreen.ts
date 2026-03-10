@@ -97,6 +97,7 @@ export const clinicalSchema = z.object({
   needsHousingReferral: z.enum(['yes', 'no'], { required_error: 'Please select' }),
   historySeizures: z.enum(['yes', 'no'], { required_error: 'Please select' }),
   mobilityIssues: z.enum(['yes', 'no'], { required_error: 'Please select' }),
+  mobilityDescription: z.string().optional(),
   hasOpenWounds: z.enum(['yes', 'no'], { required_error: 'Please select' }),
   woundsSelfTreatable: z.string().optional(),
   pregnant: z.enum(['yes', 'no', 'na'], { required_error: 'Please select' }),

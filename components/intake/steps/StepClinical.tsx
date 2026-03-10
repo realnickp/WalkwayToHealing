@@ -85,6 +85,7 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
       needsHousingReferral: (defaultValues.needsHousingReferral as YesNo) || undefined,
       historySeizures: (defaultValues.historySeizures as YesNo) || undefined,
       mobilityIssues: (defaultValues.mobilityIssues as YesNo) || undefined,
+      mobilityDescription: (defaultValues.mobilityDescription as string) || '',
       hasOpenWounds: (defaultValues.hasOpenWounds as YesNo) || undefined,
       woundsSelfTreatable: (defaultValues.woundsSelfTreatable as string) || '',
       pregnant: (defaultValues.pregnant as YesNoNa) || undefined,
@@ -261,6 +262,18 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
               onChange={(val) => setValue('mobilityIssues', val as YesNo, { shouldValidate: true })}
               error={errors.mobilityIssues?.message}
             />
+
+            {watch('mobilityIssues') === 'yes' && (
+              <div className="ml-4 pl-4 border-l-2 border-primary-100">
+                <Label htmlFor="mobilityDescription">Please describe your mobility issue</Label>
+                <Textarea
+                  id="mobilityDescription"
+                  placeholder="e.g., I use a wheelchair, I have difficulty walking long distances, etc."
+                  className="mt-1.5 min-h-[80px]"
+                  {...register('mobilityDescription')}
+                />
+              </div>
+            )}
 
             <YesNoToggle
               label="Any open wounds or sores?"
