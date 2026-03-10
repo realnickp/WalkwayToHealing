@@ -427,3 +427,85 @@ export async function deleteLeadAdmin(leadId: string) {
   revalidatePath('/dashboard')
   return { success: true }
 }
+
+// ── Bulk Operations ──
+
+export async function bulkDeleteLeads(leadIds: string[]) {
+  const staff = await requireAdmin()
+  if (leadIds.length === 0) throw new Error('No leads selected')
+  const supabase = await createServiceClient()
+
+  const { error } = await supabase.from('leads').delete().in('id', leadIds)
+  if (error) throw new Error('Failed to delete leads')
+
+  await supabase.from('lead_activity_log').insert(
+    leadIds.map(id => ({
+      lead_id: id,
+      staff_id: staff.id,
+      action: 'bulk_deleted',
+      details: { count: leadIds.length },
+    } as never))
+  )
+
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+  return { success: true, count: leadIds.length }
+}
+
+export async function bulkUpdateLeadStatus(leadIds: string[], status: LeadStatus) {
+  const staff = await getStaffUser()
+  if (leadIds.length === 0) throw new Error('No leads selected')
+  const supabase = await createServiceClient()
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ status, updated_at: new Date().toISOString() } as never)
+    .in('id', leadIds)
+
+  if (error) throw new Error('Failed to update leads')
+
+  await supabase.from('lead_activity_log').insert(
+    leadIds.map(id => ({
+      lead_id: id,
+      staff_id: staff.id,
+      action: 'bulk_status_changed',
+      details: { new_status: status, count: leadIds.length },
+    } as never))
+  )
+
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+  return { success: true, count: leadIds.length }
+}
+
+export async function bulkAssignLeads(leadIds: string[], staffId: string | null) {
+  const staff = await getStaffUser()
+  if (leadIds.length === 0) throw new Error('No leads selected')
+  const supabase = await createServiceClient()
+
+  const { error } = await supabase
+    .from('leads')
+    .update({ assigned_staff_id: staffId, updated_at: new Date().toISOString() } as never)
+    .in('id', leadIds)
+
+  if (error) throw new Error('Failed to assign leads')
+
+  let assigneeName = 'Unassigned'
+  if (staffId) {
+    const { data: s } = await supabase.from('staff_users').select('name').eq('id', staffId).single()
+    assigneeName = (s as { name: string } | null)?.name ?? 'Unknown'
+  }
+
+  await supabase.from('lead_activity_log').insert(
+    leadIds.map(id => ({
+      lead_id: id,
+      staff_id: staff.id,
+      action: 'bulk_assigned',
+      details: { assigned_to: staffId, assigned_name: assigneeName, count: leadIds.length },
+    } as never))
+  )
+
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard')
+  return { success: true, count: leadIds.length }
+}

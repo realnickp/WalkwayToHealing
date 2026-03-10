@@ -1,9 +1,11 @@
 import { Suspense } from 'react'
 import { getLeads, getLeadCounts, getAllStaff } from '@/lib/actions/dashboard'
+import { getStaffUser } from '@/lib/actions/auth'
 import { LeadCard } from '@/components/dashboard/LeadCard'
 import { LeadFilters } from '@/components/dashboard/LeadFilters'
 import { StatusBadge } from '@/components/dashboard/StatusCard'
 import { AddLeadDialog } from '@/components/dashboard/AddLeadDialog'
+import { BulkLeadManager } from '@/components/dashboard/BulkLeadManager'
 import type { LeadStatus } from '@/lib/supabase/types'
 
 const COLUMNS: { status: LeadStatus; label: string }[] = [
@@ -31,7 +33,7 @@ export default async function LeadsPage({
   const staffFilter = params.staff
   const unassignedOnly = params.unassigned === '1'
 
-  const [leads, counts, staffList] = await Promise.all([
+  const [leads, counts, staffList, currentStaff] = await Promise.all([
     getLeads({
       status: statusFilter,
       search,
@@ -41,6 +43,7 @@ export default async function LeadsPage({
     }),
     getLeadCounts(),
     getAllStaff(),
+    getStaffUser(),
   ])
 
   const hasActiveFilter = statusFilter || search || staffFilter || unassignedOnly
@@ -105,11 +108,7 @@ export default async function LeadsPage({
             </p>
           </div>
         ) : (
-          <div className="space-y-2">
-            {leads.map((lead, i) => (
-              <LeadCard key={lead.id} lead={lead} index={i} />
-            ))}
-          </div>
+          <BulkLeadManager leads={leads} staffList={staffList} isAdmin={currentStaff.role === 'admin'} />
         )}
       </div>
     </div>
