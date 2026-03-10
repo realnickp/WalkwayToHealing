@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} — Outpatient Substance Use Treatment in Maryland`,
@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteConfig.name} | Outpatient Substance Use Treatment in Maryland`,
     description: siteConfig.description,
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -63,12 +64,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: '/apple-touch-icon.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 

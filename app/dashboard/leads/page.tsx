@@ -6,6 +6,7 @@ import { LeadFilters } from '@/components/dashboard/LeadFilters'
 import { StatusBadge } from '@/components/dashboard/StatusCard'
 import { AddLeadDialog } from '@/components/dashboard/AddLeadDialog'
 import { BulkLeadManager } from '@/components/dashboard/BulkLeadManager'
+import { ViewToggle } from '@/components/dashboard/ViewToggle'
 import type { LeadStatus } from '@/lib/supabase/types'
 
 const COLUMNS: { status: LeadStatus; label: string }[] = [
@@ -25,6 +26,7 @@ export default async function LeadsPage({
     search?: string
     staff?: string
     unassigned?: string
+    view?: string
   }>
 }) {
   const params = await searchParams
@@ -32,6 +34,7 @@ export default async function LeadsPage({
   const search = params.search
   const staffFilter = params.staff
   const unassignedOnly = params.unassigned === '1'
+  const viewMode = params.view === 'list' ? 'list' : 'board'
 
   const [leads, counts, staffList, currentStaff] = await Promise.all([
     getLeads({
@@ -48,8 +51,9 @@ export default async function LeadsPage({
 
   const hasActiveFilter = statusFilter || search || staffFilter || unassignedOnly
 
-  // Group leads by status for kanban view (only when no filter is active)
-  const grouped = !hasActiveFilter
+  const showKanban = !hasActiveFilter && viewMode === 'board'
+
+  const grouped = showKanban
     ? COLUMNS.map((col) => ({
         ...col,
         leads: leads.filter((l) => l.status === col.status),
@@ -64,14 +68,21 @@ export default async function LeadsPage({
           <h1 className="font-display text-2xl font-bold text-stone-900">
             Leads
           </h1>
-          <AddLeadDialog />
+          <div className="flex items-center gap-2">
+            {!hasActiveFilter && (
+              <div className="hidden lg:block">
+                <ViewToggle current={viewMode} />
+              </div>
+            )}
+            <AddLeadDialog />
+          </div>
         </div>
         <Suspense fallback={null}>
           <LeadFilters staffList={staffList} />
         </Suspense>
       </div>
 
-      {/* Kanban board (no filter) */}
+      {/* Kanban board (desktop, no filter, board view) */}
       {grouped && (
         <div className="hidden lg:grid lg:grid-cols-6 gap-3">
           {grouped.map((col) => (
@@ -98,7 +109,7 @@ export default async function LeadsPage({
         </div>
       )}
 
-      {/* List view (mobile always, desktop when filtered) */}
+      {/* List view with bulk actions (mobile always, desktop when filtered or list view selected) */}
       <div className={grouped ? 'lg:hidden' : ''}>
         {leads.length === 0 ? (
           <div className="bg-white rounded-2xl border border-stone-100 p-10 text-center">
