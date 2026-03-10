@@ -19,7 +19,7 @@ const faqs = [
     id: 'php-explained',
     question: 'What is Partial Hospitalization (PHP)?',
     answer:
-      'Partial Hospitalization (Level 2.5) is our highest outpatient level — typically 5 days per week for 5–6 hours per day, totaling 20+ hours of treatment weekly. It\'s designed for people stepping down from inpatient care or those who need intensive daily support while still living in the community. PHP includes comprehensive clinical services, medical monitoring, and peer support in a structured environment.',
+      'Partial Hospitalization (Level 2.5) is our highest outpatient level — typically 5–7 days a week for 5–6 hours per day, totaling 20+ hours of treatment weekly. It\'s designed for people stepping down from inpatient care or those who need intensive daily support while still living in the community. PHP includes comprehensive clinical services, medical monitoring, and peer support in a structured environment.',
   },
   {
     id: 'medicaid',

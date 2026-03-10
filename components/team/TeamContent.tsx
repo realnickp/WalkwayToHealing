@@ -33,7 +33,7 @@ const leaders: TeamMember[] = [
 const team: TeamMember[] = [
   {
     name: 'Tyler May-Holzman',
-    title: 'Director of Business & Marketing',
+    title: 'Outreach Specialist',
     image: '/images/team/tyler-may-holzman.png',
     bio: 'Tyler didn\u2019t learn about addiction from a textbook \u2014 he lived with it. He watched his father build a business during stability, then saw everything unravel after a relapse. As a teenager, he and his brother stepped into survival mode. Those experiences gave him a deep understanding of what addiction does to families and shaped the empathy he brings to every interaction.',
     quote: 'Being scared is normal \u2014 but staying stuck is harder.',
@@ -71,7 +71,7 @@ const team: TeamMember[] = [
   },
   {
     name: 'Ellie Evans',
-    title: 'Outreach Specialist',
+    title: 'Director of Business & Marketing',
     image: '/images/team/ellie-evans.png',
     bio: 'Ellie understands what it means to be at the end of the line. For years she struggled with addiction herself, and those experiences fuel her belief that compassion, patience, and understanding are the foundations of recovery.',
     quote: 'Sometimes things have to fall apart so better things can come together.',

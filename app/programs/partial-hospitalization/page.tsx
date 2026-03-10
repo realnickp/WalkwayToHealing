@@ -20,7 +20,7 @@ export default function PHPPage() {
       <PageHero
         eyebrow="Level 2.5 Partial Hospitalization (PHP)"
         title="Intensive daily structure. Home every night."
-        description="Our Partial Hospitalization Program is our highest level of outpatient care — full-day programming, 5 days per week, with comprehensive clinical services and medical monitoring."
+        description="Our Partial Hospitalization Program is our highest level of outpatient care — full-day programming, 5–7 days a week, with comprehensive clinical services and medical monitoring."
         size="lg"
         backgroundImage="/images/program-php.jpg"
       />
@@ -36,8 +36,8 @@ export default function PHPPage() {
                 <div className="space-y-4 text-stone-600 leading-relaxed">
                   <p>
                     Level 2.5 Partial Hospitalization Program (PHP) provides a full-day
-                    structured treatment experience — typically 5–6 hours per day, 5 days
-                    per week — while allowing you to return home (or to a supportive
+                    structured treatment experience — typically 5–6 hours per day, 5–7 days
+                    a week — while allowing you to return home (or to a supportive
                     residence) each evening.
                   </p>
                   <p>
@@ -75,7 +75,7 @@ export default function PHPPage() {
                     {[
                       { label: 'Level', value: 'Level 2.5 PHP (ASAM)' },
                       { label: 'Weekly Hours', value: '20+ hours per week' },
-                      { label: 'Schedule', value: '5 days/week, 5–6 hrs per day' },
+                      { label: 'Schedule', value: '5–7 days/week, 5–6 hrs per day' },
                       { label: 'Insurance', value: 'Maryland Medicaid accepted' },
                       { label: 'Location', value: '1200 Light St, Floor 1, Baltimore' },
                     ].map((item) => (
