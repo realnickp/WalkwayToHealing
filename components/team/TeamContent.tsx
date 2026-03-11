@@ -87,11 +87,6 @@ const team: TeamMember[] = [
     bio: 'John lost both parents to addiction, and that pain changed the course of his life. Nearly three years clean, he turned his story into a mission to help others. He knows the power of second chances.',
     quote: 'You don\u2019t have to be ready, you just have to be willing.',
   },
-  {
-    name: 'Dillon Mastales',
-    title: 'Administrative Assistant',
-    image: '/images/team/dillon-mastales.png',
-  },
 ]
 
 /* ─── Leadership ─── */
@@ -250,22 +245,22 @@ function TeamGrid({ members }: { members: TeamMember[] }) {
     setSelectedIndex(prev => prev === index ? null : index)
   }
 
-  const desktopRow1 = members.slice(0, 5)
-  const desktopRow2 = members.slice(5)
+  const desktopRow1 = members.slice(0, 4)
+  const desktopRow2 = members.slice(4, 8)
 
   const mobileRow1 = members.slice(0, 3)
   const mobileRow2 = members.slice(3, 6)
-  const mobileRow3 = members.slice(6)
+  const mobileRow3 = members.slice(6, 8)
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Desktop: 5 top / 4 bottom */}
+      {/* Desktop: 4 top / 4 bottom — centered and symmetrical */}
       <div className="hidden md:flex flex-col gap-8">
         <TeamRow members={desktopRow1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
-        <TeamRow members={desktopRow2} startIndex={5} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={desktopRow2} startIndex={4} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
       </div>
 
-      {/* Mobile: rows of 3 */}
+      {/* Mobile: 3 / 3 / 2 — last row centered */}
       <div className="md:hidden flex flex-col gap-6 max-w-sm mx-auto">
         <TeamRow members={mobileRow1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} />
         <TeamRow members={mobileRow2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} />

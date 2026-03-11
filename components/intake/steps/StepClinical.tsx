@@ -29,18 +29,20 @@ function YesNoToggle({
   value,
   onChange,
   error,
+  required = false,
   options = [{ id: 'yes', label: 'Yes' }, { id: 'no', label: 'No' }],
 }: {
   label: string
   value: string | undefined
   onChange: (val: string) => void
   error?: string
+  required?: boolean
   options?: { id: string; label: string }[]
 }) {
   return (
     <div>
       <Label className="block mb-2 text-sm">
-        {label} <span className="text-red-500">*</span>
+        {label} {required && <span className="text-red-500">*</span>}
       </Label>
       <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}>
         {options.map((opt) => (
@@ -79,7 +81,7 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
       lastUseDate: (defaultValues.lastUseDate as string) || '',
       medicationsPrescribed: (defaultValues.medicationsPrescribed as string) || '',
       maintenanceClinic: (defaultValues.maintenanceClinic as string) || '',
-      insuranceType: (defaultValues.insuranceType as string) || '',
+      insuranceTypes: (defaultValues.insuranceTypes as string[]) || [],
       diagnosis: (defaultValues.diagnosis as string) || '',
       needsDetoxReferral: (defaultValues.needsDetoxReferral as YesNo) || undefined,
       needsHousingReferral: (defaultValues.needsHousingReferral as YesNo) || undefined,
@@ -94,7 +96,7 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
   })
 
   const drugsAbusing = watch('drugsAbusing') || []
-  const insuranceType = watch('insuranceType')
+  const insuranceTypes = watch('insuranceTypes') || []
   const hasOpenWounds = watch('hasOpenWounds')
 
   const toggleSubstance = (name: string) => {
@@ -102,6 +104,13 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
       ? drugsAbusing.filter((s) => s !== name)
       : [...drugsAbusing, name]
     setValue('drugsAbusing', updated, { shouldValidate: true })
+  }
+
+  const toggleInsurance = (id: string) => {
+    const updated = insuranceTypes.includes(id)
+      ? insuranceTypes.filter((s) => s !== id)
+      : [...insuranceTypes, id]
+    setValue('insuranceTypes', updated, { shouldValidate: true })
   }
 
   const onSubmit = (data: ClinicalFormData) => {
@@ -115,14 +124,14 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
           Clinical information
         </h2>
         <p className="text-stone-500 text-sm mb-8">
-          This helps us place you in the right level of care. Everything is confidential.
+          This helps us place you in the right level of care. Everything is confidential. Answer what you can — you can skip anything you&apos;re unsure about.
         </p>
 
         <div className="space-y-6">
           {/* Substances */}
           <div>
             <Label className="block mb-2">
-              What substances are you currently using? <span className="text-red-500">*</span>
+              What substances are you currently using?
             </Label>
             <p className="text-stone-400 text-xs mb-3">Select all that apply</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" role="group">
@@ -143,15 +152,12 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
                 </button>
               ))}
             </div>
-            {errors.drugsAbusing && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.drugsAbusing.message}</p>
-            )}
           </div>
 
           {/* Last use date */}
           <div>
             <Label htmlFor="lastUseDate">
-              When did you last use? <span className="text-red-500">*</span>
+              When did you last use?
             </Label>
             <Input
               id="lastUseDate"
@@ -159,9 +165,6 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
               className="mt-1.5"
               {...register('lastUseDate')}
             />
-            {errors.lastUseDate && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.lastUseDate.message}</p>
-            )}
           </div>
 
           {/* Medications */}
@@ -190,32 +193,30 @@ export function StepClinical({ defaultValues, onNext, onPrev }: Props) {
             />
           </div>
 
-          {/* Insurance */}
+          {/* Insurance — multi-select */}
           <div>
             <Label className="block mb-2">
-              Insurance <span className="text-red-500">*</span>
+              Insurance
             </Label>
+            <p className="text-stone-400 text-xs mb-3">Select all that apply</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" role="group">
               {INSURANCE_TYPES.map((ins) => (
                 <button
                   key={ins.id}
                   type="button"
-                  onClick={() => setValue('insuranceType', ins.id, { shouldValidate: true })}
+                  onClick={() => toggleInsurance(ins.id)}
                   className={cn(
                     'py-2.5 px-3 rounded-xl border-2 text-sm font-medium transition-all text-center',
-                    insuranceType === ins.id
+                    insuranceTypes.includes(ins.id)
                       ? 'border-primary bg-primary-50 text-primary'
                       : 'border-stone-200 hover:border-stone-300 text-stone-600'
                   )}
-                  aria-pressed={insuranceType === ins.id}
+                  aria-pressed={insuranceTypes.includes(ins.id)}
                 >
                   {ins.label}
                 </button>
               ))}
             </div>
-            {errors.insuranceType && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.insuranceType.message}</p>
-            )}
           </div>
 
           {/* Diagnosis */}

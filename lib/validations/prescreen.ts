@@ -71,43 +71,40 @@ export const INSURANCE_TYPES = [
 
 // ── Step 1: About You ──
 export const aboutYouSchema = z.object({
-  referralSource: z.string().min(1, 'Please tell us how you found us'),
+  referralSources: z.array(z.string()).min(1, 'Please tell us how you found us'),
   referralCenter: z.string().optional(),
-  readyNow: z.enum(['yes', 'no'], { required_error: 'Please let us know' }),
+  readyNow: z.enum(['yes', 'no']).optional(),
   fullName: z.string().min(2, 'Please enter your name'),
-  dateOfBirth: z
-    .string()
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Please enter date as MM/DD/YYYY'),
-  phone: z
-    .string()
-    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, 'Please enter a valid 10-digit phone number'),
-  genderIdentity: z.string().min(1, 'Please select an option'),
-  county: z.string().min(1, 'Please select your county'),
+  dateOfBirth: z.string().optional(),
+  phone: z.string().optional(),
+  genderIdentity: z.string().optional(),
+  county: z.string().optional(),
 })
 
 // ── Step 2: Clinical Info ──
 export const clinicalSchema = z.object({
-  drugsAbusing: z.array(z.string()).min(1, 'Please select at least one'),
-  lastUseDate: z.string().min(1, 'Please let us know when you last used'),
+  drugsAbusing: z.array(z.string()).optional(),
+  lastUseDate: z.string().optional(),
   medicationsPrescribed: z.string().optional(),
   maintenanceClinic: z.string().optional(),
-  insuranceType: z.string().min(1, 'Please select your insurance'),
+  insuranceTypes: z.array(z.string()).optional(),
   diagnosis: z.string().optional(),
-  needsDetoxReferral: z.enum(['yes', 'no'], { required_error: 'Please select' }),
-  needsHousingReferral: z.enum(['yes', 'no'], { required_error: 'Please select' }),
-  historySeizures: z.enum(['yes', 'no'], { required_error: 'Please select' }),
-  mobilityIssues: z.enum(['yes', 'no'], { required_error: 'Please select' }),
+  needsDetoxReferral: z.enum(['yes', 'no']).optional(),
+  needsHousingReferral: z.enum(['yes', 'no']).optional(),
+  historySeizures: z.enum(['yes', 'no']).optional(),
+  mobilityIssues: z.enum(['yes', 'no']).optional(),
   mobilityDescription: z.string().optional(),
-  hasOpenWounds: z.enum(['yes', 'no'], { required_error: 'Please select' }),
+  hasOpenWounds: z.enum(['yes', 'no']).optional(),
   woundsSelfTreatable: z.string().optional(),
-  pregnant: z.enum(['yes', 'no', 'na'], { required_error: 'Please select' }),
-  sexOffender: z.enum(['yes', 'no'], { required_error: 'Please select' }),
+  pregnant: z.enum(['yes', 'no', 'na']).optional(),
+  sexOffender: z.enum(['yes', 'no']).optional(),
 })
 
 // ── Step 3: Review & Submit ──
 export const reviewSchema = z.object({
-  courtApptNext30: z.enum(['yes', 'no'], { required_error: 'Please select' }),
+  courtApptNext30: z.enum(['yes', 'no']).optional(),
   courtApptDetails: z.string().optional(),
+  anythingElse: z.string().optional(),
   consentGiven: z.literal(true, {
     errorMap: () => ({ message: 'You must agree to continue' }),
   }),

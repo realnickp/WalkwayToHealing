@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Save } from 'lucide-react'
-import { submitPrescreen } from '@/lib/actions/intake'
+import { submitPrescreen, savePartialLead } from '@/lib/actions/intake'
 
 import { StepAboutYou } from './steps/StepAboutYou'
 import { StepClinical } from './steps/StepClinical'
@@ -16,7 +16,7 @@ const STEPS = [
   { id: 'review', title: 'Review & Submit', subtitle: 'Almost done' },
 ]
 
-const STORAGE_KEY = 'wth_prescreen_draft_v2'
+const STORAGE_KEY = 'wth_prescreen_draft_v3'
 
 export function PrescreenForm() {
   const router = useRouter()
@@ -58,15 +58,29 @@ export function PrescreenForm() {
   }, [])
 
   const goNext = useCallback(
-    (stepData: Record<string, unknown>) => {
+    async (stepData: Record<string, unknown>) => {
+      const merged = { ...formData, ...stepData }
       updateFormData(stepData)
+
+      // After Step 1, save partial lead to DB so we capture contact info
+      if (currentStep === 0) {
+        try {
+          const result = await savePartialLead(merged)
+          if (result.success && result.leadId) {
+            setFormData((prev) => ({ ...prev, ...stepData, _partialLeadId: result.leadId }))
+          }
+        } catch {
+          // Non-blocking — continue even if partial save fails
+        }
+      }
+
       if (currentStep < STEPS.length - 1) {
         setDirection(1)
         setCurrentStep((s) => s + 1)
         scrollToForm()
       }
     },
-    [currentStep, updateFormData, scrollToForm]
+    [currentStep, formData, updateFormData, scrollToForm]
   )
 
   const goPrev = useCallback(() => {
@@ -86,7 +100,7 @@ export function PrescreenForm() {
       setSubmitError(null)
 
       try {
-        const result = await submitPrescreen(combined as Parameters<typeof submitPrescreen>[0])
+        const result = await submitPrescreen(combined as unknown as Parameters<typeof submitPrescreen>[0])
 
         if (result.success) {
           localStorage.removeItem(STORAGE_KEY)

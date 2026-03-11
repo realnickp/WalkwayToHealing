@@ -31,6 +31,7 @@ export function StepReviewSubmit({ defaultValues, onSubmit, onPrev, isSubmitting
     defaultValues: {
       courtApptNext30: (defaultValues.courtApptNext30 as 'yes' | 'no') || undefined,
       courtApptDetails: (defaultValues.courtApptDetails as string) || '',
+      anythingElse: (defaultValues.anythingElse as string) || '',
       consentGiven: undefined,
       signatureName: (defaultValues.signatureName as string) || '',
     },
@@ -53,14 +54,14 @@ export function StepReviewSubmit({ defaultValues, onSubmit, onPrev, isSubmitting
             Almost done
           </h2>
           <p className="text-stone-500 text-sm">
-            One last question, then sign and submit.
+            Just a couple more things, then sign and submit.
           </p>
         </div>
 
         {/* Court / Dr appointments */}
         <div>
           <Label className="block mb-2">
-            Any court or doctor appointments in the next 30 days? <span className="text-red-500">*</span>
+            Any court or doctor appointments in the next 30 days?
           </Label>
           <div className="grid grid-cols-2 gap-3">
             {(['yes', 'no'] as const).map((val) => (
@@ -80,9 +81,6 @@ export function StepReviewSubmit({ defaultValues, onSubmit, onPrev, isSubmitting
               </button>
             ))}
           </div>
-          {errors.courtApptNext30 && (
-            <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.courtApptNext30.message}</p>
-          )}
         </div>
 
         {courtAppt === 'yes' && (
@@ -96,6 +94,19 @@ export function StepReviewSubmit({ defaultValues, onSubmit, onPrev, isSubmitting
             />
           </div>
         )}
+
+        {/* Anything else */}
+        <div>
+          <Label htmlFor="anythingElse">
+            Is there anything else you&apos;d like us to know before we connect?
+          </Label>
+          <Textarea
+            id="anythingElse"
+            placeholder="Anything at all — concerns, questions, things you want us to be aware of..."
+            className="mt-1.5 min-h-[100px]"
+            {...register('anythingElse')}
+          />
+        </div>
 
         {/* Consent */}
         <div className="border-t border-stone-100 pt-6">

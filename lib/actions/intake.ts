@@ -2,7 +2,6 @@
 
 import { createServiceClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
-import type { PrescreenFormData } from '@/lib/validations/prescreen'
 
 const RATE_LIMIT_WINDOW = parseInt(process.env.RATE_LIMIT_WINDOW || '300', 10)
 const RATE_LIMIT_MAX = parseInt(process.env.RATE_LIMIT_MAX || '3', 10)
@@ -29,7 +28,7 @@ async function sendStaffNotification(leadId: string) {
   const sgMail = (await import('@sendgrid/mail')).default
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://walkwaytohealing.com'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.walkwaytohealing.com'
   const dashboardLink = `${siteUrl}/dashboard/leads/${leadId}`
   const from = process.env.NOTIFICATION_FROM || 'info@legacylinqdigital.com'
   const toList = (process.env.NOTIFICATION_TO || '').split(',').map(e => e.trim()).filter(Boolean)
@@ -70,8 +69,99 @@ async function sendStaffNotification(leadId: string) {
   }
 }
 
+// Save partial lead after Step 1 so we capture contact info even if they abandon
+export async function savePartialLead(
+  data: Record<string, unknown>
+): Promise<{ success: boolean; leadId?: string; error?: string }> {
+  try {
+    const supabase = await createServiceClient()
+
+    const referralSources = (data.referralSources as string[]) || []
+    const dobRaw = data.dateOfBirth as string | undefined
+    const dobIso = dobRaw
+      ? (() => {
+          const parts = dobRaw.split('/')
+          if (parts.length === 3) return `${parts[2]}-${parts[0]}-${parts[1]}`
+          return null
+        })()
+      : null
+
+    const leadValues = {
+      full_name: (data.fullName as string) || 'Unknown',
+      dob: dobIso,
+      phone: (data.phone as string) || null,
+      county: (data.county as string) || null,
+      gender_identity: (data.genderIdentity as string) || null,
+      referral_source: referralSources.join(', ') || null,
+      referral_center: (data.referralCenter as string) || null,
+      ready_now: data.readyNow === 'yes',
+      status: 'new',
+      source: 'website-partial',
+    }
+
+    const existingLeadId = data._partialLeadId as string | undefined
+
+    if (existingLeadId) {
+      await supabase
+        .from('leads')
+        .update({ ...leadValues, updated_at: new Date().toISOString() } as never)
+        .eq('id', existingLeadId)
+
+      return { success: true, leadId: existingLeadId }
+    }
+
+    const { data: leadRaw, error } = await supabase
+      .from('leads')
+      .insert(leadValues as never)
+      .select('id')
+      .single()
+
+    if (error) {
+      console.error('Partial lead save error:', error)
+      return { success: false, error: 'Failed to save progress' }
+    }
+
+    return { success: true, leadId: (leadRaw as { id: string }).id }
+  } catch (err) {
+    console.error('Partial lead save error:', err)
+    return { success: false, error: 'Failed to save progress' }
+  }
+}
+
+interface SubmitData {
+  fullName: string
+  dateOfBirth?: string
+  phone?: string
+  county?: string
+  genderIdentity?: string
+  referralSources?: string[]
+  referralCenter?: string
+  readyNow?: string
+  drugsAbusing?: string[]
+  lastUseDate?: string
+  medicationsPrescribed?: string
+  maintenanceClinic?: string
+  insuranceTypes?: string[]
+  diagnosis?: string
+  needsDetoxReferral?: string
+  needsHousingReferral?: string
+  historySeizures?: string
+  mobilityIssues?: string
+  mobilityDescription?: string
+  hasOpenWounds?: string
+  woundsSelfTreatable?: string
+  pregnant?: string
+  sexOffender?: string
+  courtApptNext30?: string
+  courtApptDetails?: string
+  anythingElse?: string
+  consentGiven: boolean
+  signatureName: string
+  _partialLeadId?: string
+}
+
 export async function submitPrescreen(
-  data: Omit<PrescreenFormData, 'consentGiven'> & { consentGiven: boolean }
+  data: SubmitData
 ): Promise<{ success: boolean; error?: string; submissionId?: string }> {
   const headersList = await headers()
   const ip =
@@ -94,29 +184,31 @@ export async function submitPrescreen(
   try {
     const supabase = await createServiceClient()
 
+    const referralSources = data.referralSources || []
+    const insuranceTypes = data.insuranceTypes || []
     const dobIso = data.dateOfBirth
       ? (() => {
-          const [m, d, y] = data.dateOfBirth.split('/')
-          return `${y}-${m}-${d}`
+          const parts = data.dateOfBirth!.split('/')
+          if (parts.length === 3) return `${parts[2]}-${parts[0]}-${parts[1]}`
+          return null
         })()
       : null
 
-    // 1. Insert into legacy prescreen_submissions
     const prescreenValues = {
       status: 'new',
       full_name: data.fullName,
       date_of_birth: dobIso,
-      phone: data.phone,
-      county: data.county,
-      gender_identity: data.genderIdentity,
-      referral_source: data.referralSource,
+      phone: data.phone || null,
+      county: data.county || null,
+      gender_identity: data.genderIdentity || null,
+      referral_source: referralSources.join(', ') || null,
       referral_center: data.referralCenter || null,
       ready_now: data.readyNow === 'yes',
-      drugs_abusing: data.drugsAbusing,
+      drugs_abusing: data.drugsAbusing || [],
       last_use_date: data.lastUseDate || null,
       medications_prescribed: data.medicationsPrescribed || null,
       maintenance_clinic: data.maintenanceClinic || null,
-      insurance_type: data.insuranceType,
+      insurance_type: insuranceTypes.join(', ') || null,
       diagnosis: data.diagnosis || null,
       needs_detox_referral: data.needsDetoxReferral === 'yes',
       needs_housing_referral: data.needsHousingReferral === 'yes',
@@ -124,7 +216,7 @@ export async function submitPrescreen(
       mobility_issues: data.mobilityIssues === 'yes',
       has_open_wounds: data.hasOpenWounds === 'yes',
       wounds_self_treatable: data.woundsSelfTreatable || null,
-      pregnant: data.pregnant,
+      pregnant: data.pregnant || null,
       sex_offender: data.sexOffender === 'yes',
       court_appt_next_30: data.courtApptNext30 === 'yes',
       court_appt_details: data.courtApptDetails || null,
@@ -132,7 +224,7 @@ export async function submitPrescreen(
       signature_name: data.signatureName,
       consent_timestamp: new Date().toISOString(),
       ip_address: ip,
-      form_version: '2.0',
+      form_version: '3.0',
     }
 
     const { data: submissionRaw, error: prescreenError } = await supabase
@@ -145,17 +237,16 @@ export async function submitPrescreen(
       console.error('Prescreen insert error:', prescreenError)
     }
 
-    // 2. Create a lead in the new CRM table
     const leadValues = {
       full_name: data.fullName,
       dob: dobIso,
-      phone: data.phone,
-      county: data.county,
-      gender_identity: data.genderIdentity,
+      phone: data.phone || null,
+      county: data.county || null,
+      gender_identity: data.genderIdentity || null,
       primary_drug: data.drugsAbusing?.[0] ?? null,
-      drugs_abusing: data.drugsAbusing,
+      drugs_abusing: data.drugsAbusing || [],
       last_use_date: data.lastUseDate || null,
-      insurance_type: data.insuranceType,
+      insurance_type: insuranceTypes.join(', ') || null,
       diagnosis: data.diagnosis || null,
       medications_prescribed: data.medicationsPrescribed || null,
       maintenance_clinic: data.maintenanceClinic || null,
@@ -164,49 +255,57 @@ export async function submitPrescreen(
       history_seizures: data.historySeizures === 'yes',
       mobility_issues: data.mobilityIssues === 'yes',
       has_open_wounds: data.hasOpenWounds === 'yes',
-      pregnant: data.pregnant,
+      pregnant: data.pregnant || null,
       sex_offender: data.sexOffender === 'yes',
       court_appt_next_30: data.courtApptNext30 === 'yes',
       court_appt_details: data.courtApptDetails || null,
-      referral_source: data.referralSource,
+      referral_source: referralSources.join(', ') || null,
       referral_center: data.referralCenter || null,
       ready_now: data.readyNow === 'yes',
       status: 'new',
       source: 'website',
+      updated_at: new Date().toISOString(),
     }
 
-    const { data: leadRaw, error: leadError } = await supabase
-      .from('leads')
-      .insert(leadValues as never)
-      .select('id')
-      .single()
+    let leadId: string | null = null
+    const existingLeadId = data._partialLeadId
 
-    const lead = leadRaw as { id: string } | null
+    if (existingLeadId) {
+      await supabase
+        .from('leads')
+        .update(leadValues as never)
+        .eq('id', existingLeadId)
+      leadId = existingLeadId
+    } else {
+      const { data: leadRaw, error: leadError } = await supabase
+        .from('leads')
+        .insert(leadValues as never)
+        .select('id')
+        .single()
 
-    if (leadError) {
-      console.error('Lead insert error:', leadError)
+      if (leadError) {
+        console.error('Lead insert error:', leadError)
+      }
+      leadId = (leadRaw as { id: string } | null)?.id ?? null
     }
 
-    // 3. Store full form JSON in intake_forms
-    if (lead) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { consentGiven, signatureName, ...formAnswers } = data
+    if (leadId) {
+      const { consentGiven: _c, signatureName: _s, _partialLeadId: _p, ...formAnswers } = data
+      void _c; void _s; void _p;
       await supabase.from('intake_forms').insert({
-        lead_id: lead.id,
-        prescreen_json: formAnswers as never,
-        version: '2.0',
+        lead_id: leadId,
+        prescreen_json: { ...formAnswers, anythingElse: data.anythingElse } as never,
+        version: '3.0',
       } as never).then(({ error }) => {
         if (error) console.error('Intake form insert error:', error)
       })
     }
 
     const submissionId = (submissionRaw as { id: string } | null)?.id
-    const leadId = lead?.id
 
-    // 4. Send notification (non-blocking)
     sendStaffNotification(leadId || submissionId || 'unknown').catch(console.error)
 
-    return { success: true, submissionId: submissionId || leadId }
+    return { success: true, submissionId: submissionId || leadId || undefined }
   } catch (err) {
     console.error('Intake submission error:', err)
     return {

@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Heart } from 'lucide-react'
 import { formatPhone, formatDate } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 
@@ -32,7 +32,7 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
   } = useForm<AboutYouFormData>({
     resolver: zodResolver(aboutYouSchema),
     defaultValues: {
-      referralSource: (defaultValues.referralSource as string) || '',
+      referralSources: (defaultValues.referralSources as string[]) || [],
       referralCenter: (defaultValues.referralCenter as string) || '',
       readyNow: (defaultValues.readyNow as 'yes' | 'no') || undefined,
       fullName: (defaultValues.fullName as string) || '',
@@ -43,8 +43,15 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
     },
   })
 
-  const referralSource = watch('referralSource')
+  const referralSources = watch('referralSources') || []
   const readyNow = watch('readyNow')
+
+  const toggleReferral = (id: string) => {
+    const updated = referralSources.includes(id)
+      ? referralSources.filter((s) => s !== id)
+      : [...referralSources, id]
+    setValue('referralSources', updated, { shouldValidate: true })
+  }
 
   const onSubmit = (data: AboutYouFormData) => {
     onNext(data as unknown as Record<string, unknown>)
@@ -56,41 +63,49 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
         <h2 className="font-display text-2xl font-bold text-stone-900 mb-1">
           Tell us about yourself
         </h2>
-        <p className="text-stone-500 text-sm mb-8">
+        <p className="text-stone-500 text-sm mb-4">
           Basic info so we can reach you and get you started.
         </p>
 
+        <div className="bg-primary-50/60 border border-primary/10 rounded-xl p-4 mb-8 flex items-start gap-3">
+          <Heart className="h-4 w-4 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+          <p className="text-stone-600 text-sm leading-relaxed">
+            <strong className="text-stone-800">Fill out whatever you can.</strong> We know this can feel like a lot. Just give us your name and we&apos;ll take it from there. You can skip anything you&apos;re not sure about.
+          </p>
+        </div>
+
         <div className="space-y-5">
-          {/* Referral Source */}
+          {/* Referral Source — multi-select */}
           <div>
             <Label className="block mb-2">
               How did you find us? <span className="text-red-500">*</span>
             </Label>
+            <p className="text-stone-400 text-xs mb-3">Select all that apply</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" role="group">
               {REFERRAL_SOURCES.map((src) => (
                 <button
                   key={src.id}
                   type="button"
-                  onClick={() => setValue('referralSource', src.id, { shouldValidate: true })}
+                  onClick={() => toggleReferral(src.id)}
                   className={cn(
                     'py-3 px-3 min-h-[44px] rounded-xl border-2 text-sm font-medium transition-all text-center leading-tight',
-                    referralSource === src.id
+                    referralSources.includes(src.id)
                       ? 'border-primary bg-primary-50 text-primary'
                       : 'border-stone-200 hover:border-stone-300 text-stone-600'
                   )}
-                  aria-pressed={referralSource === src.id}
+                  aria-pressed={referralSources.includes(src.id)}
                 >
                   {src.label}
                 </button>
               ))}
             </div>
-            {errors.referralSource && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.referralSource.message}</p>
+            {errors.referralSources && (
+              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.referralSources.message}</p>
             )}
           </div>
 
           {/* Treatment center name (conditional) */}
-          {referralSource === 'treatment_center' && (
+          {referralSources.includes('treatment_center') && (
             <div>
               <Label htmlFor="referralCenter">Which treatment center?</Label>
               <Input
@@ -105,7 +120,7 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
           {/* Ready now? */}
           <div>
             <Label className="block mb-2">
-              Are you ready to start treatment now? <span className="text-red-500">*</span>
+              Are you ready to start treatment now?
             </Label>
             <div className="grid grid-cols-2 gap-3">
               {(['yes', 'no'] as const).map((val) => (
@@ -125,9 +140,6 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
                 </button>
               ))}
             </div>
-            {errors.readyNow && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.readyNow.message}</p>
-            )}
           </div>
 
           {/* Name */}
@@ -150,7 +162,7 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
           {/* DOB */}
           <div>
             <Label htmlFor="dateOfBirth">
-              Date of Birth <span className="text-red-500">*</span>
+              Date of Birth
             </Label>
             <Input
               id="dateOfBirth"
@@ -162,15 +174,12 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
                 onChange: (e) => setValue('dateOfBirth', formatDate(e.target.value), { shouldValidate: false }),
               })}
             />
-            {errors.dateOfBirth && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.dateOfBirth.message}</p>
-            )}
           </div>
 
           {/* Phone */}
           <div>
             <Label htmlFor="phone">
-              Phone Number <span className="text-red-500">*</span>
+              Phone Number
             </Label>
             <Input
               id="phone"
@@ -180,18 +189,15 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
               autoComplete="tel"
               className="mt-1.5"
               {...register('phone', {
-                onChange: (e) => setValue('phone', formatPhone(e.target.value), { shouldValidate: true }),
+                onChange: (e) => setValue('phone', formatPhone(e.target.value), { shouldValidate: false }),
               })}
             />
-            {errors.phone && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.phone.message}</p>
-            )}
           </div>
 
           {/* Gender Identity */}
           <div>
             <Label className="block mb-2">
-              Gender Identity <span className="text-red-500">*</span>
+              Gender Identity
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2" role="group">
               {GENDER_OPTIONS.map((opt) => (
@@ -211,15 +217,12 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
                 </button>
               ))}
             </div>
-            {errors.genderIdentity && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.genderIdentity.message}</p>
-            )}
           </div>
 
           {/* County */}
           <div>
             <Label htmlFor="county">
-              County <span className="text-red-500">*</span>
+              County
             </Label>
             <div className="mt-1.5">
               <Select
@@ -236,9 +239,6 @@ export function StepAboutYou({ defaultValues, onNext }: Props) {
                 </SelectContent>
               </Select>
             </div>
-            {errors.county && (
-              <p className="text-red-500 text-xs mt-1.5" role="alert">{errors.county.message}</p>
-            )}
           </div>
         </div>
       </div>

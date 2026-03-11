@@ -6,6 +6,7 @@ import type { Json } from '@/lib/supabase/types'
 
 const SECTION_MAP: Record<string, string> = {
   referralSource: 'Referral Source',
+  referralSources: 'Referral Sources',
   referralCenter: 'Referral Center',
   readyNow: 'Ready Now',
   fullName: 'Full Name',
@@ -18,17 +19,20 @@ const SECTION_MAP: Record<string, string> = {
   medicationsPrescribed: 'Medications',
   maintenanceClinic: 'Maintenance Clinic',
   insuranceType: 'Insurance',
+  insuranceTypes: 'Insurance',
   diagnosis: 'Diagnosis',
   needsDetoxReferral: 'Needs Detox Referral',
   needsHousingReferral: 'Needs Housing Referral',
   historySeizures: 'Seizure History',
   mobilityIssues: 'Mobility Issues',
+  mobilityDescription: 'Mobility Details',
   hasOpenWounds: 'Open Wounds',
   woundsSelfTreatable: 'Wounds Self-Treatable',
   pregnant: 'Pregnant',
   sexOffender: 'Sex Offender',
   courtApptNext30: 'Court Appts (30 days)',
   courtApptDetails: 'Court Details',
+  anythingElse: 'Additional Notes from Client',
 }
 
 function formatValue(val: unknown): string {
