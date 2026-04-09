@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import Script from 'next/script'
 import { headers } from 'next/headers'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
@@ -153,6 +154,18 @@ export default async function RootLayout({
           </>
         )}
       </head>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-F61GLCZLP0"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-F61GLCZLP0');
+        `}
+      </Script>
       <body className="min-h-screen flex flex-col bg-cream">
         {isStaffRoute ? (
           children
