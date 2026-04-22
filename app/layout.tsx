@@ -155,7 +155,7 @@ export default async function RootLayout({
         )}
       </head>
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-F61GLCZLP0"
+        src="https://www.googletagmanager.com/gtag/js?id=G-M6KH8CNG8Q"
         strategy="afterInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
@@ -163,7 +163,7 @@ export default async function RootLayout({
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-F61GLCZLP0');
+          gtag('config', 'G-M6KH8CNG8Q');
         `}
       </Script>
       <body className="min-h-screen flex flex-col bg-cream">
