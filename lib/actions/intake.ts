@@ -303,7 +303,7 @@ export async function submitPrescreen(
 
     const submissionId = (submissionRaw as { id: string } | null)?.id
 
-    sendStaffNotification(leadId || submissionId || 'unknown').catch(console.error)
+    await sendStaffNotification(leadId || submissionId || 'unknown').catch(console.error)
 
     return { success: true, submissionId: submissionId || leadId || undefined }
   } catch (err) {
