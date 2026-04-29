@@ -31,9 +31,10 @@ export async function middleware(request: NextRequest) {
           response = NextResponse.next({
             request: { headers: request.headers },
           })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          )
+          cookiesToSet.forEach(({ name, value, options }) => {
+            const sessionOptions: CookieOptions = { ...options, maxAge: undefined, expires: undefined }
+            response.cookies.set(name, value, sessionOptions)
+          })
         },
       },
     }

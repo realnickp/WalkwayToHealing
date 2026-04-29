@@ -17,9 +17,10 @@ export async function createClient() {
         },
         setAll(cookiesToSet: CookieToSet[]) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            cookiesToSet.forEach(({ name, value, options }) => {
+              const sessionOptions: CookieOptions = { ...options, maxAge: undefined, expires: undefined }
+              cookieStore.set(name, value, sessionOptions)
+            })
           } catch {
             // Ignore: called from Server Component
           }
@@ -42,9 +43,10 @@ export async function createServiceClient() {
         },
         setAll(cookiesToSet: CookieToSet[]) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            cookiesToSet.forEach(({ name, value, options }) => {
+              const sessionOptions: CookieOptions = { ...options, maxAge: undefined, expires: undefined }
+              cookieStore.set(name, value, sessionOptions)
+            })
           } catch {
             // Ignore: called from Server Component
           }
