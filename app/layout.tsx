@@ -79,13 +79,15 @@ export default async function RootLayout({
 
   const organizationSchema = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['MedicalClinic', 'LocalBusiness'],
     '@id': `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     alternateName: 'Walkway to Healing LLC',
     url: siteConfig.url,
     telephone: siteConfig.contact.phoneFormatted,
     email: siteConfig.contact.email,
+    image: `${siteConfig.url}/og-image.png`,
+    logo: `${siteConfig.url}/logo.png`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: '1200 Light St, Floor 1',
@@ -99,6 +101,8 @@ export default async function RootLayout({
       latitude: 39.2800,
       longitude: -76.6180,
     },
+    hasMap:
+      'https://www.google.com/maps/search/?api=1&query=1200+Light+St+Floor+1+Baltimore+MD+21230',
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -108,14 +112,23 @@ export default async function RootLayout({
       },
     ],
     description: siteConfig.description,
-    medicalSpecialty: 'Addiction Medicine',
-    priceRange: 'Accepts Maryland Medicaid',
-    paymentAccepted: 'Medicaid',
-    areaServed: {
-      '@type': 'State',
-      name: 'Maryland',
-      sameAs: 'https://en.wikipedia.org/wiki/Maryland',
-    },
+    medicalSpecialty: 'Addiction',
+    priceRange: '$',
+    paymentAccepted: 'Maryland Medicaid',
+    isAcceptingNewPatients: true,
+    availableService: siteConfig.services.map((service) => ({
+      '@type': 'MedicalTherapy',
+      name: service.name,
+      url: `${siteConfig.url}${service.href}`,
+    })),
+    areaServed: [
+      { '@type': 'City', name: 'Baltimore' },
+      {
+        '@type': 'State',
+        name: 'Maryland',
+        sameAs: 'https://en.wikipedia.org/wiki/Maryland',
+      },
+    ],
   }
 
   return (

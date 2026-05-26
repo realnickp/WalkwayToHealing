@@ -133,12 +133,34 @@ export default async function BlogPostPage({ params }: Props) {
     },
   }
 
+  const faqSchema =
+    post.faqs && post.faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: post.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }
+      : null
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <article className="bg-cream min-h-screen">
         <div className="bg-primary-900 pt-12 pb-20 px-4">
@@ -190,6 +212,30 @@ export default async function BlogPostPage({ params }: Props) {
               ))}
             </div>
           </div>
+
+          {post.faqs && post.faqs.length > 0 && (
+            <section
+              aria-labelledby="faq-heading"
+              className="bg-white rounded-2xl shadow-lg border border-stone-200/60 p-6 sm:p-10 mb-12"
+            >
+              <h2
+                id="faq-heading"
+                className="font-display text-2xl font-bold text-stone-900 mb-6"
+              >
+                Frequently Asked Questions
+              </h2>
+              <dl className="divide-y divide-stone-100">
+                {post.faqs.map((faq) => (
+                  <div key={faq.question} className="py-5 first:pt-0 last:pb-0">
+                    <dt className="font-display text-lg font-bold text-stone-800 mb-2">
+                      {faq.question}
+                    </dt>
+                    <dd className="text-stone-600 leading-relaxed">{faq.answer}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
 
           <div className="text-center pb-16">
             <p className="text-stone-500 mb-4">Ready to take the next step?</p>
