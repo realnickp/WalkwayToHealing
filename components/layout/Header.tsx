@@ -102,8 +102,15 @@ export function Header() {
                   className="relative"
                   onMouseEnter={() => setActiveDropdown(item.href)}
                   onMouseLeave={() => setActiveDropdown(null)}
+                  onFocus={() => setActiveDropdown(item.href)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                      setActiveDropdown(null)
+                    }
+                  }}
                 >
-                  <button
+                  <Link
+                    href={item.href}
                     className={cn(
                       'flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150',
                       pathname.startsWith(item.href)
@@ -120,7 +127,7 @@ export function Header() {
                         activeDropdown === item.href && 'rotate-180'
                       )}
                     />
-                  </button>
+                  </Link>
                   {activeDropdown === item.href && (
                     <div className="absolute top-full left-0 pt-1 min-w-[240px]">
                       <div className="bg-white rounded-xl shadow-lg border border-stone-100 py-2 overflow-hidden">
