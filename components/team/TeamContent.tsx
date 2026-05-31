@@ -32,13 +32,6 @@ const leaders: TeamMember[] = [
 
 const team: TeamMember[] = [
   {
-    name: 'Tyler May-Holzman',
-    title: 'Outreach Specialist',
-    image: '/images/team/tyler-may-holzman.png',
-    bio: 'Tyler didn\u2019t learn about addiction from a textbook \u2014 he lived with it. He watched his father build a business during stability, then saw everything unravel after a relapse. As a teenager, he and his brother stepped into survival mode. Those experiences gave him a deep understanding of what addiction does to families and shaped the empathy he brings to every interaction.',
-    quote: 'Being scared is normal \u2014 but staying stuck is harder.',
-  },
-  {
     name: 'Marva Williams',
     title: 'Director of Admissions',
     image: '/images/team/marva-williams.png',
