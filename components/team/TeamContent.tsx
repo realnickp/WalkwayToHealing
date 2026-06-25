@@ -39,6 +39,13 @@ const team: TeamMember[] = [
     quote: 'You are not alone. I am proud of you, and I am here to support you.',
   },
   {
+    name: 'Troy Pritt Sr.',
+    title: 'Director of Human Resources',
+    image: '/images/team/troy-pritt-sr-v5.png',
+    bio: 'Troy Sr. leads the people behind Walkway to Healing, building a workplace where staff feel supported so they can show up fully for the clients who count on them. He oversees hiring, onboarding, training, and team development, bringing the same compassion and respect to the staff that the organization extends to everyone who walks through the door. He believes a healthy, well-cared-for team is the foundation of lasting recovery work — and that the people doing the work deserve to be treated like human beings, too.',
+    quote: 'Recovery isn’t about outrunning your past—it’s about saddling up each morning with courage, faith, and the determination to ride toward a better life.',
+  },
+  {
     name: 'Frederick Kingery',
     title: 'Clinical Coordinator',
     image: '/images/team/frederick-kingery.png',
@@ -238,26 +245,24 @@ function TeamGrid({ members }: { members: TeamMember[] }) {
     setSelectedIndex(prev => prev === index ? null : index)
   }
 
-  const desktopRow1 = members.slice(0, 4)
-  const desktopRow2 = members.slice(4, 8)
-
-  const mobileRow1 = members.slice(0, 3)
-  const mobileRow2 = members.slice(3, 6)
-  const mobileRow3 = members.slice(6, 8)
+  const row1 = members.slice(0, 3)
+  const row2 = members.slice(3, 6)
+  const row3 = members.slice(6, 9)
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Desktop: 4 top / 4 bottom — centered and symmetrical */}
+      {/* Desktop: 3 / 3 / 3 — centered and symmetrical */}
       <div className="hidden md:flex flex-col gap-8">
-        <TeamRow members={desktopRow1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
-        <TeamRow members={desktopRow2} startIndex={4} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={row1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={row2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={row3} startIndex={6} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
       </div>
 
-      {/* Mobile: 3 / 3 / 2 — last row centered */}
+      {/* Mobile: 3 / 3 / 3 */}
       <div className="md:hidden flex flex-col gap-6 max-w-sm mx-auto">
-        <TeamRow members={mobileRow1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} />
-        <TeamRow members={mobileRow2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} />
-        <TeamRow members={mobileRow3} startIndex={6} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={row1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={row2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={row3} startIndex={6} selectedIndex={selectedIndex} onSelect={handleClick} />
       </div>
     </div>
   )
