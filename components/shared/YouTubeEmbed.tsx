@@ -17,14 +17,16 @@ interface YouTubeEmbedProps {
   role?: string
   description?: string
   className?: string
+  /** Custom trigger element — replaces the default thumbnail button. */
+  children?: React.ReactNode
 }
 
 /**
- * Thumbnail card that opens the video in a popup player with a
- * description below. Only the thumbnail loads until clicked, so a
- * page full of videos stays fast.
+ * Thumbnail card (or custom trigger) that opens the video in a popup
+ * player with a description below. Only the thumbnail loads until
+ * clicked, so a page full of videos stays fast.
  */
-export function YouTubeEmbed({ videoId, title, role, description, className }: YouTubeEmbedProps) {
+export function YouTubeEmbed({ videoId, title, role, description, className, children }: YouTubeEmbedProps) {
   const [thumbFallback, setThumbFallback] = useState(false)
 
   const thumbnail = thumbFallback
@@ -33,6 +35,9 @@ export function YouTubeEmbed({ videoId, title, role, description, className }: Y
 
   return (
     <Dialog>
+      {children ? (
+        <DialogTrigger asChild>{children}</DialogTrigger>
+      ) : (
       <DialogTrigger asChild>
         <button
           type="button"
@@ -61,6 +66,7 @@ export function YouTubeEmbed({ videoId, title, role, description, className }: Y
           </span>
         </button>
       </DialogTrigger>
+      )}
 
       <DialogContent
         className={cn(

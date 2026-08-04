@@ -2,11 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Star } from 'lucide-react'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
+import { SectionDivider } from '@/components/shared/SectionDivider'
 import { googleRating, googleReviewsUrl } from '@/config/reviews'
 
 export function AwardSection() {
   return (
-    <section className="py-16 md:py-24 bg-white" aria-labelledby="award-heading">
+    <section className="py-16 md:py-24 bg-cream" aria-labelledby="award-heading">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Copy */}
@@ -80,6 +81,8 @@ export function AwardSection() {
             </div>
           </AnimatedSection>
         </div>
+
+        <SectionDivider className="mt-16 md:mt-20" />
       </div>
     </section>
   )

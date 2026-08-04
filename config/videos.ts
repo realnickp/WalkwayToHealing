@@ -4,6 +4,15 @@
 
 export const youtubeChannelUrl = 'https://www.youtube.com/@Walkwaytohealing'
 
+/** The flagship brand film, featured in the homepage hero. */
+export const brandFilm = {
+  id: 'KnI6-D6RmFw',
+  title: 'Inside Walkway to Healing',
+  duration: '2 min film',
+  description:
+    'Recovery looks different for everyone, but no one should have to face it alone. Through the voices of clients, alumni, counselors, and leadership, this film shows the people and purpose behind Walkway to Healing — and what makes our approach to addiction treatment different.',
+}
+
 export interface ChannelVideo {
   /** YouTube video ID */
   id: string
