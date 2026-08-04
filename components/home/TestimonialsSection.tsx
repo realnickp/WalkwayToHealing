@@ -1,30 +1,27 @@
 import Image from 'next/image'
-import { Quote } from 'lucide-react'
 import { StaggerContainer, StaggerItem, AnimatedSection } from '@/components/shared/AnimatedSection'
+import { YouTubeEmbed } from '@/components/shared/YouTubeEmbed'
+import { GoogleReviewsCarousel } from '@/components/home/GoogleReviewsCarousel'
+import { storiesOfHealingVideos, meetTheStaffVideos, youtubeChannelUrl } from '@/config/videos'
 
-const testimonials = [
-  {
-    quote:
-      'I was terrified to call. I kept telling myself I wasn\'t bad enough to need help. The first person I spoke to just listened — no lecture, no judgment. That call changed everything.',
-    attribution: 'Outpatient Program Graduate',
-    program: 'Level 1 Outpatient',
-    image: '/images/recovery-woman-strength.jpg',
-  },
-  {
-    quote:
-      'The IOP schedule worked around my job. I was able to keep working, come to treatment, and come home to my kids at night. I didn\'t think that kind of flexibility existed.',
-    attribution: 'IOP Program Graduate',
-    program: 'Level 2.1 IOP',
-    image: '/images/recovery-man-hope.jpg',
-  },
-  {
-    quote:
-      'When I started PHP I was in rough shape. My counselor had been through it themselves — I could tell. They knew the difference between saying the right things and actually meaning them.',
-    attribution: 'PHP Program Graduate',
-    program: 'Level 2.5 PHP',
-    image: '/images/recovery-php-portrait.jpg',
-  },
-]
+function GroupHeading({
+  id,
+  title,
+  description,
+}: {
+  id: string
+  title: string
+  description: string
+}) {
+  return (
+    <AnimatedSection className="text-center mb-10">
+      <h3 id={id} className="font-display text-2xl sm:text-3xl font-bold text-white mb-2">
+        {title}
+      </h3>
+      <p className="text-primary-200 text-sm sm:text-base max-w-xl mx-auto">{description}</p>
+    </AnimatedSection>
+  )
+}
 
 export function TestimonialsSection() {
   return (
@@ -55,7 +52,7 @@ export function TestimonialsSection() {
       />
 
       <div className="container mx-auto relative z-10">
-        <AnimatedSection className="text-center mb-12">
+        <AnimatedSection className="text-center mb-14">
           <p className="text-primary-200 text-sm font-semibold uppercase tracking-widest mb-3">
             Voices of Recovery
           </p>
@@ -66,51 +63,87 @@ export function TestimonialsSection() {
             People just like you have found a way forward.
           </h2>
           <p className="text-primary-200 text-base max-w-xl mx-auto">
-            These are composite stories representative of the experiences shared
-            by people who have come through our doors.
+            Real clients, real staff, real reviews — in their own words.
           </p>
         </AnimatedSection>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((item) => (
-            <StaggerItem key={item.attribution}>
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full flex flex-col">
-                {/* Testimonial image */}
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={`${item.program} recovery testimonial`}
-                    fill
-                    className="object-cover object-top"
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-transparent to-transparent" />
-                </div>
+        {/* Stories of Healing */}
+        <div aria-labelledby="stories-of-healing-heading">
+          <GroupHeading
+            id="stories-of-healing-heading"
+            title="Stories of Healing"
+            description="Clients share what recovery at Walkway to Healing has meant for their lives."
+          />
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
+            {storiesOfHealingVideos.map((video) => (
+              <StaggerItem
+                key={video.id}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <YouTubeEmbed
+                  videoId={video.id}
+                  title={`Stories of Healing: ${video.person}`}
+                  description={video.description}
+                />
+                <p className="text-white text-sm font-medium mt-3 text-center">
+                  {video.person}
+                </p>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
 
-                <div className="p-7 flex flex-col flex-1">
-                  <Quote
-                    className="h-7 w-7 text-accent mb-3 opacity-80 shrink-0"
-                    aria-hidden="true"
-                  />
-                  <blockquote className="text-white leading-relaxed mb-6 flex-1 italic text-sm sm:text-base">
-                    &ldquo;{item.quote}&rdquo;
-                  </blockquote>
-                  <div className="border-t border-white/10 pt-4">
-                    <p className="text-primary-100 text-sm font-medium">
-                      {item.attribution}
-                    </p>
-                    <p className="text-primary-300 text-xs mt-0.5">{item.program}</p>
-                  </div>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        {/* Meet the Staff */}
+        <div aria-labelledby="meet-the-staff-heading" className="mt-16 md:mt-20">
+          <GroupHeading
+            id="meet-the-staff-heading"
+            title="Meet the Staff"
+            description="The people who will walk beside you — many of them in recovery themselves."
+          />
+          <StaggerContainer className="flex flex-wrap justify-center gap-5">
+            {meetTheStaffVideos.map((video) => (
+              <StaggerItem
+                key={video.id}
+                className="w-full sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)]"
+              >
+                <YouTubeEmbed
+                  videoId={video.id}
+                  title={`Meet the Staff: ${video.person}`}
+                  role={video.role}
+                  description={video.description}
+                />
+                <p className="text-white text-sm font-medium mt-3 text-center">
+                  {video.person}
+                </p>
+                {video.role && (
+                  <p className="text-white text-xs mt-0.5 text-center">{video.role}</p>
+                )}
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+          <AnimatedSection className="text-center mt-8">
+            <a
+              href={youtubeChannelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-200 text-sm underline underline-offset-4 hover:text-white transition-colors"
+            >
+              Watch more on our YouTube channel
+            </a>
+          </AnimatedSection>
+        </div>
 
-        <AnimatedSection delay={0.2} className="text-center mt-12">
-          <p className="text-primary-200 text-sm mb-6">
-            Stories have been generalized to protect privacy. Recovery is possible.
-          </p>
+        {/* Google reviews */}
+        <div aria-labelledby="google-reviews-heading" className="mt-16 md:mt-20">
+          <GroupHeading
+            id="google-reviews-heading"
+            title="What Our Clients Say on Google"
+            description="Five-star reviews, quoted word for word from our public Google listing."
+          />
+          <GoogleReviewsCarousel />
+        </div>
+
+        <AnimatedSection delay={0.2} className="text-center mt-14">
           <a
             href="/intake"
             className="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-white text-primary font-semibold text-sm hover:bg-primary-50 transition-colors duration-150 shadow-lg"

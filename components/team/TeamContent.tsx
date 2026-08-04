@@ -4,6 +4,8 @@ import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { YouTubeEmbed } from '@/components/shared/YouTubeEmbed'
+import { meetTheStaffVideos, youtubeChannelUrl } from '@/config/videos'
 
 interface TeamMember {
   name: string
@@ -315,6 +317,60 @@ export default function TeamContent() {
           </motion.div>
 
           <TeamGrid members={team} />
+        </div>
+      </section>
+
+      {/* Staff videos */}
+      <section className="py-16 md:py-24 bg-cream" aria-labelledby="staff-videos-heading">
+        <div className="container mx-auto px-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <p className="text-primary font-semibold text-sm tracking-wider uppercase mb-2">Meet the Staff</p>
+            <h2 id="staff-videos-heading" className="font-display text-3xl sm:text-4xl font-bold text-stone-900 mb-3">
+              Hear from the team in their own words
+            </h2>
+            <p className="text-stone-500 text-sm">Press play to get to know the people behind Walkway to Healing</p>
+          </motion.div>
+
+          <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
+            {meetTheStaffVideos.map((video, i) => (
+              <motion.div
+                key={video.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <YouTubeEmbed
+                  videoId={video.id}
+                  title={`Meet the Staff: ${video.person}`}
+                  role={video.role}
+                  description={video.description}
+                />
+                <p className="text-stone-900 text-sm font-bold mt-3 text-center">{video.person}</p>
+                {video.role && (
+                  <p className="text-stone-500 text-xs mt-0.5 text-center">{video.role}</p>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <a
+              href={youtubeChannelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary text-sm font-medium underline underline-offset-4 hover:text-primary-700 transition-colors"
+            >
+              Watch more on our YouTube channel
+            </a>
+          </div>
         </div>
       </section>
 

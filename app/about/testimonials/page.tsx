@@ -5,11 +5,13 @@ import { Quote, ArrowRight } from 'lucide-react'
 import { breadcrumbSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { StaggerContainer, StaggerItem, AnimatedSection } from '@/components/shared/AnimatedSection'
+import { YouTubeEmbed } from '@/components/shared/YouTubeEmbed'
+import { storiesOfHealingVideos } from '@/config/videos'
 
 export const metadata: Metadata = {
   title: 'Testimonials | Walkway to Healing',
   description:
-    'Hear from people who have gone through treatment at Walkway to Healing across Maryland. Recovery stories and perspectives.',
+    'Watch real clients share their recovery stories on video and read testimonials from people who have gone through treatment at Walkway to Healing across Maryland.',
   alternates: { canonical: '/about/testimonials' },
 }
 
@@ -59,23 +61,13 @@ export default function TestimonialsPage() {
       <PageHero
         eyebrow="Voices of Recovery"
         title="People just like you have found a way forward."
-        description="These composite stories represent the experiences shared by graduates of our programs. Details have been generalized to protect privacy."
+        description="Real clients share their stories on video, alongside written testimonials representing the experiences of our program graduates."
         size="lg"
         backgroundImage="/images/ocean-peace.jpg"
       />
 
       <section className="py-16 md:py-24 bg-cream">
         <div className="container mx-auto">
-          <AnimatedSection>
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-12 text-center max-w-2xl mx-auto">
-              <p className="text-amber-800 text-sm">
-                These testimonials are composite stories that represent the types of experiences
-                shared by our clients. They are not attributed to specific individuals to
-                protect privacy. Recovery is deeply personal and outcomes vary.
-              </p>
-            </div>
-          </AnimatedSection>
-
           {/* Nature image banner */}
           <AnimatedSection className="mb-12">
             <div className="relative rounded-2xl overflow-hidden shadow-lg h-[200px] sm:h-[260px]">
@@ -92,6 +84,48 @@ export default function TestimonialsPage() {
                   Every recovery journey begins with one conversation.
                 </p>
               </div>
+            </div>
+          </AnimatedSection>
+
+          {/* Stories of Healing videos */}
+          <AnimatedSection className="text-center mb-10">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-stone-900 mb-3">
+              Stories of Healing
+            </h2>
+            <p className="text-stone-600 max-w-xl mx-auto">
+              Real clients share what recovery at Walkway to Healing has meant
+              for their lives — in their own words.
+            </p>
+          </AnimatedSection>
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 mb-16">
+            {storiesOfHealingVideos.map((video) => (
+              <StaggerItem
+                key={video.id}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <YouTubeEmbed
+                  videoId={video.id}
+                  title={`Stories of Healing: ${video.person}`}
+                  description={video.description}
+                />
+                <p className="text-stone-900 text-sm font-bold mt-3 text-center">{video.person}</p>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          {/* Written testimonials */}
+          <AnimatedSection className="text-center mb-8">
+            <h2 className="font-display text-2xl font-bold text-stone-900">
+              More voices from our programs
+            </h2>
+          </AnimatedSection>
+          <AnimatedSection>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-10 text-center max-w-2xl mx-auto">
+              <p className="text-amber-800 text-sm">
+                The written testimonials below are composite stories that represent the types
+                of experiences shared by our clients. They are not attributed to specific
+                individuals to protect privacy. Recovery is deeply personal and outcomes vary.
+              </p>
             </div>
           </AnimatedSection>
 

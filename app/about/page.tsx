@@ -5,6 +5,8 @@ import { ArrowRight, Heart, Users, Shield, Star } from 'lucide-react'
 import { breadcrumbSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { StaggerContainer, StaggerItem, AnimatedSection } from '@/components/shared/AnimatedSection'
+import { YouTubeEmbed } from '@/components/shared/YouTubeEmbed'
+import { storiesOfHealingVideos } from '@/config/videos'
 
 export const metadata: Metadata = {
   title: 'About Walkway to Healing',
@@ -142,6 +144,32 @@ export default function AboutPage() {
                     {value.description}
                   </p>
                 </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          {/* Stories of Healing videos */}
+          <AnimatedSection>
+            <h2 className="font-display text-2xl font-bold text-stone-900 text-center mb-3">
+              Stories of Healing
+            </h2>
+            <p className="text-stone-600 text-center max-w-xl mx-auto mb-10">
+              Clients share, in their own words, what recovery at Walkway to
+              Healing has meant for their lives.
+            </p>
+          </AnimatedSection>
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 mb-20">
+            {storiesOfHealingVideos.map((video) => (
+              <StaggerItem
+                key={video.id}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <YouTubeEmbed
+                  videoId={video.id}
+                  title={`Stories of Healing: ${video.person}`}
+                  description={video.description}
+                />
+                <p className="text-stone-900 text-sm font-bold mt-3 text-center">{video.person}</p>
               </StaggerItem>
             ))}
           </StaggerContainer>

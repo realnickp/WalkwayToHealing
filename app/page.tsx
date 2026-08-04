@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Hero } from '@/components/home/Hero'
+import { AwardSection } from '@/components/home/AwardSection'
 import { VideoSection } from '@/components/home/VideoSection'
 import { TrustSection } from '@/components/home/TrustSection'
 import { ProgramsOverview } from '@/components/home/ProgramsOverview'
@@ -27,6 +28,7 @@ export default function HomePage() {
     <>
       <Hero />
       <div className="relative z-10">
+        <AwardSection />
         <VideoSection />
         <TrustSection />
         <ProgramsOverview />
