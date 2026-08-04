@@ -100,11 +100,11 @@ export function TestimonialsSection() {
             title="Meet the Staff"
             description="The people who will walk beside you — many of them in recovery themselves."
           />
-          <StaggerContainer className="flex flex-wrap justify-center gap-5">
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
             {meetTheStaffVideos.map((video) => (
               <StaggerItem
                 key={video.id}
-                className="w-full sm:w-[calc(50%-10px)] lg:w-[calc(25%-15px)]"
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
               >
                 <YouTubeEmbed
                   videoId={video.id}

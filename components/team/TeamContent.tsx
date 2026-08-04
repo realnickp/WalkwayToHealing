@@ -55,13 +55,6 @@ const team: TeamMember[] = [
     quote: 'Just for today, try something different. Make that first step.',
   },
   {
-    name: 'Dawanda Boardley',
-    title: 'Counselor',
-    image: '/images/team/dawanda-boardley.png',
-    bio: 'Dawanda started as a nurse before realizing she wanted to heal people at the root. She returned to school to become a substance abuse counselor. The loss of a close friend to an overdose and her father\u2019s 25+ years of recovery from PTSD shaped her compassion.',
-    quote: 'Taking the first step toward recovery is an act of courage and self-love.',
-  },
-  {
     name: 'Casey Marshall',
     title: 'Counselor',
     image: '/images/team/casey-marshall.png',
@@ -247,24 +240,19 @@ function TeamGrid({ members }: { members: TeamMember[] }) {
     setSelectedIndex(prev => prev === index ? null : index)
   }
 
-  const row1 = members.slice(0, 3)
-  const row2 = members.slice(3, 6)
-  const row3 = members.slice(6, 9)
-
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Desktop: 3 / 3 / 3 — centered and symmetrical */}
+      {/* Desktop: 4 / 3 — the 3 centered under the 4 */}
       <div className="hidden md:flex flex-col gap-8">
-        <TeamRow members={row1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
-        <TeamRow members={row2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
-        <TeamRow members={row3} startIndex={6} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={members.slice(0, 4)} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
+        <TeamRow members={members.slice(4, 7)} startIndex={4} selectedIndex={selectedIndex} onSelect={handleClick} size="large" />
       </div>
 
-      {/* Mobile: 3 / 3 / 3 */}
+      {/* Mobile: 3 / 2 / 2 */}
       <div className="md:hidden flex flex-col gap-6 max-w-sm mx-auto">
-        <TeamRow members={row1} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} />
-        <TeamRow members={row2} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} />
-        <TeamRow members={row3} startIndex={6} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={members.slice(0, 3)} startIndex={0} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={members.slice(3, 5)} startIndex={3} selectedIndex={selectedIndex} onSelect={handleClick} />
+        <TeamRow members={members.slice(5, 7)} startIndex={5} selectedIndex={selectedIndex} onSelect={handleClick} />
       </div>
     </div>
   )

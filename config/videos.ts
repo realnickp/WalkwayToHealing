@@ -66,13 +66,6 @@ export const meetTheStaffVideos: ChannelVideo[] = [
       'Fred struggled with heroin and cocaine addiction — a road that led to prison and the realization that something had to change. He shares how his own recovery shapes the way he guides clients today.',
   },
   {
-    id: 'EnHUQFoQ0qE',
-    person: 'Dawanda Boardley',
-    role: 'Counselor',
-    description:
-      'Addiction can affect anyone, no matter where you come from or how your life looks from the outside. Dawanda explains why a safe, supportive, and natural environment matters so much for people beginning their recovery journey.',
-  },
-  {
     id: '5i1wWWA_jPw',
     person: 'Casey Marshall',
     role: 'Counselor',
