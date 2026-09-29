@@ -114,7 +114,7 @@ export function Footer() {
               </address>
               <div className="flex items-center gap-2.5 text-sm text-stone-400">
                 <Clock className="h-4 w-4 text-primary-light shrink-0" aria-hidden="true" />
-                <span>Mon–Fri: 9:00 AM – 5:00 PM</span>
+                <span>Office Mon–Fri: 9:00 AM – 5:00 PM · Phones answered 24/7</span>
               </div>
             </div>
           </div>

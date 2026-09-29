@@ -4,9 +4,10 @@ import { CheckCircle, Clock } from 'lucide-react'
 import { breadcrumbSchema, serviceSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
+import { ProgramLocalSection } from '@/components/programs/ProgramLocalSection'
 
 export const metadata: Metadata = {
-  title: 'Level 2.1 Intensive Outpatient Program (IOP) | Walkway to Healing Maryland',
+  title: 'Intensive Outpatient Program (IOP) in Baltimore, MD | Walkway to Healing',
   description:
     'Intensive Outpatient Program (IOP) in Maryland. 9–20 hours per week. Structured group and individual therapy. Maryland Medicaid accepted. Walkway to Healing.',
   alternates: { canonical: '/programs/intensive-outpatient' },
@@ -107,6 +108,11 @@ export default function IntensiveOutpatientPage() {
           </div>
         </div>
       </section>
+      <ProgramLocalSection
+        heading="Intensive Outpatient (IOP) in Baltimore"
+        paragraphs={["Walkway to Healing runs its Intensive Outpatient Program at 1200 Light St in South Baltimore, with easy access from public transit. IOP meets 3 to 5 days a week for about 3 hours per session, so most people keep working, parenting or going to school while they are in treatment.", "IOP is often the next step after Partial Hospitalization or an inpatient stay, and it is also a starting point for people who need more support than one or two sessions a week. Our counselors include people in recovery themselves, and we accept Maryland Medicaid."]}
+        faqs={[{"question": "How many hours a week is IOP?", "answer": "Level 2.1 Intensive Outpatient is about 9 to 20 hours of treatment per week, usually 3 to 5 sessions of about 3 hours each."}, {"question": "Does Maryland Medicaid cover IOP at Walkway to Healing?", "answer": "Yes. We accept Maryland Medicaid, including HealthChoice plans, and we will verify your coverage before your first visit at no cost."}, {"question": "Can I work while I am in IOP?", "answer": "Yes. IOP is built so you can keep living at home and keep up with work, family or school while you attend treatment several days a week."}, {"question": "How do I start IOP in Baltimore?", "answer": "Call (410) 934-7976 any time, our phones are answered 24/7, or start your intake online. Your first visit is an assessment to confirm IOP is the right level of care."}]}
+      />
     </>
   )
 }

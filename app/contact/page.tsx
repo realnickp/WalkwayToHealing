@@ -9,7 +9,7 @@ import { siteConfig } from '@/config/site'
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Contact Walkway to Healing in Maryland. Call (410) 934-7976, email us, or start your intake online. Office hours Monday–Friday 9 AM–5 PM.',
+    'Contact Walkway to Healing in Maryland. Call (410) 934-7976, email us, or start your intake online. Phones answered 24/7. Office hours Monday–Friday 9 AM–5 PM.',
   alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact Walkway to Healing',
@@ -53,7 +53,7 @@ export default function ContactPage() {
                         {siteConfig.contact.phoneFormatted}
                       </div>
                       <div className="text-sm text-stone-500 mt-0.5">
-                        Mon–Fri, 9:00 AM – 5:00 PM
+                        Answered 24/7 · Office Mon–Fri, 9:00 AM – 5:00 PM
                       </div>
                     </div>
                   </a>
@@ -145,8 +145,8 @@ export default function ContactPage() {
                         Not for emergencies
                       </h3>
                       <p className="text-amber-800 text-sm leading-relaxed">
-                        This phone line and this website are not crisis or emergency
-                        services. If you are in immediate danger, call{' '}
+                        Our phones are answered 24/7 for questions and intake, but this
+                        line and this website are not crisis or emergency services. If you are in immediate danger, call{' '}
                         <strong>911</strong>. If you are in mental health crisis, call
                         or text <strong>988</strong> (Suicide &amp; Crisis Lifeline),
                         available 24 hours a day.

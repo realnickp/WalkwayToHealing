@@ -4,10 +4,11 @@ import { CheckCircle, Clock, ArrowRight } from 'lucide-react'
 import { breadcrumbSchema, serviceSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
+import { ProgramLocalSection } from '@/components/programs/ProgramLocalSection'
 
 
 export const metadata: Metadata = {
-  title: 'Level 1 Outpatient Program (OP) | Walkway to Healing Maryland',
+  title: 'Outpatient Addiction Treatment in Baltimore, MD | Walkway to Healing',
   description:
     'Level 1 Outpatient substance use treatment in Maryland. Flexible scheduling under 9 hours per week. Accepts Maryland Medicaid. Walkway to Healing.',
   alternates: { canonical: '/programs/outpatient' },
@@ -133,6 +134,11 @@ export default function OutpatientPage() {
           </AnimatedSection>
         </div>
       </section>
+      <ProgramLocalSection
+        heading="Outpatient treatment in Baltimore"
+        paragraphs={["Level 1 Outpatient at Walkway to Healing means up to 9 hours of treatment a week at our South Baltimore office at 1200 Light St. It works well for people with a stable home life who want ongoing counseling and support, and for people stepping down from IOP.", "Sessions include individual counseling, group therapy and relapse prevention, with a team that includes people in recovery themselves. We accept Maryland Medicaid."]}
+        faqs={[{"question": "How often is Level 1 Outpatient?", "answer": "Level 1 Outpatient is up to 9 hours of treatment per week, scheduled around your work and family commitments."}, {"question": "Is outpatient treatment covered by Maryland Medicaid?", "answer": "Yes. We accept Maryland Medicaid and will verify your coverage before your first visit."}, {"question": "What if I need more support later?", "answer": "You can move between levels of care as your needs change, including stepping up to IOP or PHP with the same team."}]}
+      />
     </>
   )
 }

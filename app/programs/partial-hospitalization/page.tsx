@@ -4,9 +4,10 @@ import { CheckCircle, Clock } from 'lucide-react'
 import { breadcrumbSchema, serviceSchema } from '@/lib/seo'
 import { PageHero } from '@/components/shared/PageHero'
 import { AnimatedSection } from '@/components/shared/AnimatedSection'
+import { ProgramLocalSection } from '@/components/programs/ProgramLocalSection'
 
 export const metadata: Metadata = {
-  title: 'Level 2.5 Partial Hospitalization Program (PHP) | Walkway to Healing Maryland',
+  title: 'Partial Hospitalization Program (PHP) in Baltimore, MD | Walkway to Healing',
   description:
     'Partial Hospitalization Program (PHP) in Maryland. 20+ hours per week intensive outpatient. Maryland Medicaid accepted. Walkway to Healing.',
   alternates: { canonical: '/programs/partial-hospitalization' },
@@ -109,6 +110,11 @@ export default function PHPPage() {
           </div>
         </div>
       </section>
+      <ProgramLocalSection
+        heading="Partial Hospitalization (PHP) in Baltimore"
+        paragraphs={["Our Partial Hospitalization Program is the most intensive level of care we offer at 1200 Light St in South Baltimore: 20 or more hours of structured treatment each week while you still sleep at home.", "PHP is a fit for people stepping down from inpatient or residential care, or for anyone who needs daily structure without a residential stay. As you make progress, you can step down to IOP and then Level 1 Outpatient with the same team. We accept Maryland Medicaid."]}
+        faqs={[{"question": "What is the difference between PHP and IOP?", "answer": "PHP (Level 2.5) is 20 or more hours of treatment per week. IOP (Level 2.1) is about 9 to 20 hours per week. Many people start in PHP and step down to IOP as they stabilize."}, {"question": "Does Maryland Medicaid cover Partial Hospitalization?", "answer": "Yes. We accept Maryland Medicaid, including HealthChoice plans, and we check your benefits before your first visit so you know what to expect."}, {"question": "Do I have to stay overnight in PHP?", "answer": "No. PHP is an outpatient program. You attend treatment during the day and go home at night."}, {"question": "Do you offer detox?", "answer": "We do not provide detox on site. Walkway to Healing is an outpatient program. If you think you may need detox first, call us any time and we can talk through where to start and how to continue with us afterward."}]}
+      />
     </>
   )
 }

@@ -41,7 +41,7 @@ const trustItems = [
 const stats = [
   { value: 'Medicaid', label: 'Accepted', sub: 'Maryland Medicaid welcome' },
   { value: '3', label: 'Levels of Care', sub: 'OP · IOP · PHP' },
-  { value: 'Mon–Fri', label: 'Office Hours', sub: '9:00 AM – 5:00 PM' },
+  { value: '24/7', label: 'Phones Answered', sub: 'Office Mon–Fri 9–5' },
   { value: 'Baltimore', label: 'Location', sub: '1200 Light St, Floor 1' },
 ]
 

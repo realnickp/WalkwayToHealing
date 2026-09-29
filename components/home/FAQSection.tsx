@@ -52,6 +52,18 @@ const faqs = [
       'You don\'t have to figure that out on your own — that\'s what our clinical assessment is for. In general: Level 1 Outpatient suits people with a stable environment who need structured support; Level 2.1 IOP is for those needing more frequent engagement; Level 2.5 PHP is for those requiring intensive daily structure. Our clinicians will work with you to find the right fit and adjust as you progress.',
   },
   {
+    id: 'detox',
+    question: 'Do you offer detox?',
+    answer:
+      'We do not provide detox on site. Walkway to Healing is an outpatient program offering Level 1 Outpatient, Intensive Outpatient (IOP) and Partial Hospitalization (PHP). If you think you may need detox first, call us any time at (410) 934-7976. We can talk through where to start and how to continue your recovery with us afterward.',
+  },
+  {
+    id: 'after-hours',
+    question: 'Can I call outside of office hours?',
+    answer:
+      'Yes. Our office is open Monday through Friday, 9 AM to 5 PM, but our phones are answered 24/7. You can reach a real person any time, day or night, to ask questions or start intake. If you are in crisis, call or text 988, or call 911 in an emergency.',
+  },
+  {
     id: 'confidentiality',
     question: 'Is my information kept private?',
     answer:

@@ -101,6 +101,19 @@ export default async function RootLayout({
       latitude: 39.2800,
       longitude: -76.6180,
     },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+14109347976',
+      contactType: 'admissions',
+      areaServed: 'US-MD',
+      availableLanguage: 'English',
+      hoursAvailable: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
+    },
     hasMap:
       'https://www.google.com/maps/search/?api=1&query=1200+Light+St+Floor+1+Baltimore+MD+21230',
     openingHoursSpecification: [

@@ -21,6 +21,9 @@ export const siteConfig = {
     },
   },
 
+  // Office hours are Mon-Fri 9-5, but the phone line is answered around the clock
+  phoneAvailability: 'Phones answered 24/7',
+
   hours: {
     weekdays: 'Monday – Friday: 9:00 AM – 5:00 PM',
     weekend: 'Saturday – Sunday: Closed',

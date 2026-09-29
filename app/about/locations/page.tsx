@@ -66,8 +66,8 @@ export default function LocationsPage() {
                   </div>
                   <div className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-100">
                     <p className="text-amber-800 text-xs">
-                      <strong>Not an emergency line.</strong> Outside business hours, call or
-                      text 988 for crisis support, or 911 for emergencies.
+                      <strong>Phones answered 24/7</strong> for questions and intake. This is not a
+                      crisis line: call or text 988 for crisis support, or 911 for emergencies.
                     </p>
                   </div>
                 </div>
