@@ -47,8 +47,10 @@ export async function submitJobApplication(
   _prev: ApplicationState,
   formData: FormData
 ): Promise<ApplicationState> {
-  // Honeypot: real people never see or fill this field
-  if (String(formData.get('company') || '').trim()) {
+  // Honeypot: real people never see or fill this field. Named so browser
+  // autofill won't touch it (a "company" field got autofilled by Chrome).
+  if (String(formData.get('hp_confirm_field') || '').trim()) {
+    console.warn('Job application dropped by honeypot')
     return { status: 'success' }
   }
 

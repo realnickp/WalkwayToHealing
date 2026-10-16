@@ -64,8 +64,8 @@ export function ApplicationForm() {
 
       {/* Honeypot — hidden from people, catches bots */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
-        <label htmlFor="company">Company</label>
-        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="hp_confirm_field">Leave this field empty</label>
+        <input id="hp_confirm_field" name="hp_confirm_field" type="text" tabIndex={-1} autoComplete="new-password" />
       </div>
 
       <div className="space-y-5">
