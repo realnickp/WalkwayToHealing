@@ -1,6 +1,12 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // Careers form uploads resumes up to 5 MB through a server action (default limit is 1 MB)
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '6mb',
+    },
+  },
   images: {
     remotePatterns: [
       {

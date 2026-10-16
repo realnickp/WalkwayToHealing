@@ -29,6 +29,7 @@ const navigation = [
       { label: 'Meet the Team', href: '/about/team' },
       { label: 'Testimonials', href: '/about/testimonials' },
       { label: 'Location & Hours', href: '/about/locations' },
+      { label: 'Careers', href: '/careers' },
     ],
   },
   { label: 'Blog', href: '/blog' },

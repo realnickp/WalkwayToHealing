@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: '/verify-insurance', priority: 0.8, changeFrequency: 'monthly' as const },
     { url: '/intake', priority: 0.9, changeFrequency: 'monthly' as const },
     { url: '/blog', priority: 0.8, changeFrequency: 'weekly' as const },
+    { url: '/careers', priority: 0.6, changeFrequency: 'monthly' as const },
     { url: '/privacy', priority: 0.4, changeFrequency: 'yearly' as const },
     { url: '/terms', priority: 0.4, changeFrequency: 'yearly' as const },
     { url: '/accessibility', priority: 0.4, changeFrequency: 'yearly' as const },
