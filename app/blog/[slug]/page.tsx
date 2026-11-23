@@ -88,6 +88,16 @@ function renderMarkdown(content: string) {
       listItems.push(line.replace(/^\d+\. /, ''))
     } else if (line.trim() === '') {
       flushList()
+    } else if (/^!\[[^\]]*\]\([^)\s]+\)$/.test(line.trim())) {
+      // Image on its own line: ![alt](/images/blog/...)
+      flushList()
+      const [, alt, src] = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(line.trim())!
+      elements.push(
+        <figure key={i} className="my-8">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt={alt} loading="lazy" className="w-full rounded-xl aspect-video object-cover" />
+        </figure>
+      )
     } else {
       flushList()
       elements.push(
